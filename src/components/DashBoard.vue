@@ -276,7 +276,8 @@
             </v-chip-group>
           </v-card>
         </v-col>
-        <v-col cols="9" class="mt-n3">
+
+        <v-col v-if="carga" cols="9" class="mt-n3">
           <v-row>
             <v-col
               cols="12"
@@ -296,7 +297,7 @@
                   <v-spacer></v-spacer>
                   <v-btn color="black" small dark>{{ producto.sold }}</v-btn>
                   <v-img
-                    src="producto.image"
+                    :src="imgArray[index]"
                     width="200"
                     height="200"
                     contain
@@ -311,6 +312,9 @@
             </v-col>
           </v-row>
         </v-col>
+        <v-col v-else>
+          <h1>Cargando...</h1>
+        </v-col>
       </v-row>
     </v-card>
   </v-container>
@@ -319,9 +323,19 @@
 <script>
 /*eslint-disable*/
 
+import { ref } from "vue";
+debugger;
 export default {
   name: "DashBoard",
+  state: {},
 
+  props: {
+    hola: String,
+  },
+  //Cuando la pagina se crea, realiza el metodo que llamemos en created
+  created() {
+    this.getImage(12);
+  },
   data: () => ({
     items: [
       {
@@ -457,7 +471,59 @@ export default {
         price: "$ 245.00",
       },
     ],
+    imgArray: [],
+    carga: false,
   }),
+  methods: {
+    async getImage(id) {
+      let numberId = 1;
+      debugger;
+      this.miImagen = "Pensando...";
+      while (this.imgArray.length < 12) {
+        const data = await fetch(
+          `https:/jsonplaceholder.typicode.com/photos/${numberId}`
+        ).then((res) => res.json());
+        console.log(data);
+        this.imgArray.push(data.url);
+        console.log(this.imgArray);
+        console.log(this.carga);
+        numberId += 1;
+      }
+      this.carga = true;
+      console.log(this.carga);
+    },
+
+    cargar() {
+      debugger;
+      while (!this.carga) {
+        getImageId();
+        this.imgArray.push(1);
+        if ((this.imgArray.length = 12)) this.carga = true;
+      }
+    },
+  },
+  watch: {
+    /*
+    imgArray(val, oldval) {
+      debugger;
+      console.log(val, oldval);
+      if ((val.length = 12)) {
+        this.carga = true;
+        return;
+      }
+      this.getImage();
+      this.imgArray.push(1);
+    },*/
+    carga(val, oldval) {
+      /*
+      while (!val) {
+        getImageId();
+        this.imgArray.push(1);
+        if ((this.imgArray.length = 12)) this.carga = true;
+      }
+      */
+    },
+  },
 };
 </script>
 
