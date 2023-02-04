@@ -6,9 +6,11 @@
       <router-link to="/about">About</router-link>
       <router-link to="/login">Login</router-link>
       <router-link to="/Productos">Productos</router-link>
+      <router-link to="/Inicio">Inicio</router-link>
+
       <router-view />
-      <AppFooter></AppFooter>
     </v-main>
+    <AppFooter></AppFooter>
   </v-app>
 </template>
 

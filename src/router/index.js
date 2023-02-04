@@ -28,6 +28,12 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/DashboardView.vue"),
   },
+  {
+    path: "/Inicio",
+    name: "InicioView",
+    component: () =>
+      import(/* webpackChunkName: "about" */ "../views/InicioView.vue"),
+  },
 ];
 
 const router = createRouter({
