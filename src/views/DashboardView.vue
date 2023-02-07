@@ -43,7 +43,7 @@
               <v-col cols="12" sm="8">
                 <!--TODO Cambiar con api-->
                 <v-img
-                  :src="'af1.png'"
+                  src="https://i.ibb.co/Wy49mwF/eac24c2f11924b109410ae890008cb01-9366.webp"
                   max-height="400"
                   max-width="400"
                 ></v-img>
@@ -92,7 +92,6 @@
 <script>
 /*eslint-disable*/
 
-import { ref } from "vue";
 import LoginPage from "./LoginPage.vue";
 import HomePage from "../components/HomePage.vue";
 
@@ -104,7 +103,7 @@ export default {
   state: {},
   //Cuando la pagina se crea, realiza el metodo que llamemos en created
   created() {
-    this.getImage(12);
+    this.getImage();
   },
   data: () => ({
     items: [
@@ -247,30 +246,29 @@ export default {
     carga: false,
   }),
   methods: {
-    async getImage(id) {
-      let numberId = 1;
+    async getImage() {
+      let numberId = 0;
       debugger;
       this.miImagen = "Pensando...";
       while (this.imgArray.length < 12) {
         const data = await fetch(
-          `https:/jsonplaceholder.typicode.com/photos/${numberId}`
+          `http://localhost:3003/v1/api/productos/`
         ).then((res) => res.json());
+        debugger;
+        var objetoData = data.find((objeto) => {
+          console.log(objeto);
+          return objeto.id === `product${1}`;
+        });
         console.log(data);
-        this.imgArray.push(data);
+        this.imgArray.push(data[numberId]);
         console.log(this.imgArray);
         console.log(this.carga);
         numberId += 1;
       }
+      debugger;
+      console.log(this.imgArray);
       this.carga = true;
       console.log(this.carga);
-    },
-    cargar() {
-      debugger;
-      while (!this.carga) {
-        getImageId();
-        this.imgArray.push(1);
-        if ((this.imgArray.length = 12)) this.carga = true;
-      }
     },
   },
   watch: {

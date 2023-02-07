@@ -137,32 +137,6 @@
             VERDE
           </v-chip>
         </v-chip-group>
-
-        <!--
-  
-          <v-chip-group column multiple>
-                <v-chip
-                  filter
-                  outlined
-                  color="black"
-                  text-color="black"
-                  class="ml-2"
-                ></v-chip>
-                <v-chip filter color="#E6E6E6" text-color="black"></v-chip>
-                <v-chip filter color="#FFB500" text-color="white"></v-chip>
-                <v-chip filter color="#F27229" text-color="white"> </v-chip>
-                <v-chip filter color="#EB3427" text-color="white"> </v-chip>
-                <v-chip filter color="#923FA3" text-color="white"> </v-chip>
-  
-                <v-chip filter color="#3A51DF" text-color="white" class="ml-2">
-                </v-chip>
-                <v-chip filter color="#23A7F5" text-color="white"> </v-chip>
-                <v-chip filter color="#5EB524" text-color="white"> </v-chip>
-                <v-chip filter color="#7C5F4D" text-color="white"> </v-chip>
-                <v-chip filter color="black" text-color="white"> </v-chip>
-                <v-chip filter color="lime" text-color="white"> </v-chip>
-              </v-chip-group>
-              -->
       </v-card>
       <v-card flat outlined>
         <v-toolbar flat>
@@ -203,16 +177,20 @@
               variant="outlined"
             >
               <v-spacer></v-spacer>
-              <v-btn color="black" small dark>{{ producto.sold }}</v-btn>
+
+              <v-btn v-if="producto.oferta" color="black" small dark
+                >{{ producto.oferta }}%</v-btn
+              >
+
               <v-img
-                :src="imgArray[index].url"
+                :src="producto.imagen"
                 width="200"
                 height="200"
                 contain
               ></v-img>
               <v-card-text class="mt-n4">
                 <strong :class="{ 'on-hover': hover }">{{
-                  producto.title
+                  producto.nombre
                 }}</strong>
               </v-card-text>
             </v-card>
@@ -228,6 +206,7 @@
 
 <script>
 export default {
+  /*eslint-disable */
   //Pasamos Propiedades del componente padre
   name: "ProductsView",
   props: {

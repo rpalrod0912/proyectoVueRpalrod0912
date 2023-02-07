@@ -7,6 +7,7 @@
       <router-link to="/login">Login</router-link>
       <router-link to="/Productos">Productos</router-link>
       <router-link to="/Inicio">Inicio</router-link>
+      <router-link to="Perfil">Perfil</router-link>
 
       <router-view />
     </v-main>
@@ -46,7 +47,8 @@ export default {
 
 <style scoped>
 .index {
-  z-index: 9999;
+  margin: 0%;
+  z-index: 999;
   color: white;
 }
 </style>
