@@ -114,18 +114,58 @@
           <v-spacer></v-spacer>
           <v-icon color="grey" small>mdi-close</v-icon>
         </v-toolbar>
-        <v-chip-group column multiple>
-          <v-chip filter class="ma-2" color="lightgrey"> BLANCO </v-chip>
+        <v-chip-group column mandatory>
+          <v-chip
+            @click="colorFilterState('Ninguno')"
+            filter
+            class="ma-2"
+            color="lightgrey"
+          >
+            TODOS
+          </v-chip>
+          <v-chip
+            @click="colorFilterState('Blanco')"
+            filter
+            class="ma-2"
+            color="lightgrey"
+          >
+            BLANCO
+          </v-chip>
 
-          <v-chip filter class="ma-2" color="grey"> NEGRO </v-chip>
+          <v-chip
+            @click="colorFilterState('Negro')"
+            filter
+            class="ma-2"
+            color="grey"
+          >
+            NEGRO
+          </v-chip>
 
-          <v-chip filter class="ma-2" color="blue"> AZUL </v-chip>
+          <v-chip
+            @click="colorFilterState('Azul')"
+            filter
+            class="ma-2"
+            color="blue"
+          >
+            AZUL
+          </v-chip>
 
-          <v-chip filter class="ma-2" color="red" text-color="white"
+          <v-chip
+            @click="colorFilterState('Rojo')"
+            class="ma-2"
+            color="red"
+            text-color="white"
             >ROJO</v-chip
           >
 
-          <v-chip filter class="ma-2" outlined color="green" text-color="white">
+          <v-chip
+            @click="colorFilterState('Verde')"
+            filter
+            class="ma-2"
+            outlined
+            color="green"
+            text-color="white"
+          >
             VERDE
           </v-chip>
         </v-chip-group>
@@ -157,6 +197,57 @@
           cols="12"
           sm="4"
           v-for="(producto, index) in this.ofertasArray"
+          :key="index"
+          class="pa-0"
+        >
+          <v-hover v-slot="{ hover }" open-delay="200">
+            <v-card
+              :elevation="hover ? 16 : 2"
+              height="300"
+              class="d-flex flex-column align-center mb-3"
+              text-align="center"
+              variant="outlined"
+            >
+              <v-spacer></v-spacer>
+
+              <v-btn color="red" small dark
+                >OFERTA:{{ producto.oferta }}%</v-btn
+              >
+
+              <v-img
+                :src="producto.imagen"
+                width="200"
+                height="200"
+                contain
+              ></v-img>
+              <v-card-text class="mt-n4">
+                <strong :class="{ 'on-hover': hover }">{{
+                  producto.nombre
+                }}</strong>
+              </v-card-text>
+              <v-card-text class="mt-n4" style="padding: 0px">
+                <strong
+                  v-if="producto.oferta"
+                  font-color="red"
+                  class="colPrecioOfer"
+                  >{{
+                    this.aplicarDescuento(producto.precio, producto.oferta)
+                  }}
+                  €</strong
+                >
+                <strong v-else :class="{ 'on-hover': hover }"
+                  >{{ producto.precio }} €</strong
+                >
+              </v-card-text>
+            </v-card>
+          </v-hover>
+        </v-col>
+      </v-row>
+      <v-row v-else-if="colorFilter">
+        <v-col
+          cols="12"
+          sm="4"
+          v-for="(producto, index) in this.colorArray"
           :key="index"
           class="pa-0"
         >
@@ -272,7 +363,10 @@ export default {
     return {
       saleFilter: false,
       ofertasArray: [],
+      colorArray: [],
       loadOfertas: false,
+      sizesFilter: false,
+      colorFilter: false,
     };
   },
   computed: {
@@ -308,6 +402,35 @@ export default {
       const resultado = precio - (precio * porcentaje) / 100;
       return resultado;
     },
+    async colorFilterState(color) {
+      this.colorArray = [];
+      if (color === "Ninguno") {
+        this.colorFilter = false;
+      } else {
+        this.colorFilter = true;
+        const myArr = await this.cargarColores(color);
+
+        this.colorArray = myArr;
+
+        console.log(myArr);
+        console.log(this.colorFilter);
+      }
+    },
+    async cargarColores(color) {
+      let emptyArr = [];
+      let numberId = 0;
+      this.miImagen = "Pensando...";
+      const data = await fetch(
+        `http://localhost:3003/v1/api/productos/colores`
+      ).then((res) => res.json());
+      const dataArr = [data];
+      while (emptyArr.length < dataArr[0][color].length) {
+        emptyArr.push(dataArr[0][color][numberId]);
+        console.log(data);
+        numberId += 1;
+      }
+      return emptyArr;
+    },
     async cargarOfertas() {
       let emptyArr = [];
       let numberId = 0;
@@ -329,9 +452,8 @@ export default {
     },
   },
   watcher: {
-    saleFilter(newVal, oldVal) {
-      debugger;
-      console.log(this.saleFilter);
+    sizesFilter(newVal, oldVal) {
+      console.log("Hola");
     },
   },
 };
