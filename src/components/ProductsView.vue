@@ -30,21 +30,13 @@
         </v-btn>
       </v-toolbar>
     </v-col>
-    <v-col cols="12" sm="3" class="mt-n6 p1-0">
+    <v-col cols="12" sm="3" class="mt-n6 p1-0 salesFilter">
       <v-toolbar flat outlined>
-        <v-btn icon class="mr-1">
-          <v-icon color="#3853D8"> mdi-apps </v-icon>
-        </v-btn>
-        <v-divider vertical></v-divider>
-        <v-btn icon class="mx-1">
-          <v-icon color="grey">mdi-format-list-bulleted</v-icon>
-        </v-btn>
-        <v-divider vertical></v-divider>
-        <v-toolbar-title class="m1-2">
-          <strong>COMPARAR: </strong>
-        </v-toolbar-title>
-        <v-spacer></v-spacer>
-        <v-badge color="#3853D8" content="3" class="mr-2"></v-badge>
+        <v-checkbox
+          v-model="saleFilter"
+          @change="filtrarOfertas"
+          label="Ofertas"
+        ></v-checkbox>
       </v-toolbar>
     </v-col>
     <v-col cols="3" class="py-0 pr-0 mt-n3">
@@ -160,7 +152,58 @@
     </v-col>
 
     <v-col v-if="carga" cols="9" class="mt-n3">
-      <v-row>
+      <v-row v-if="saleFilter">
+        <v-col
+          cols="12"
+          sm="4"
+          v-for="(producto, index) in this.ofertasArray"
+          :key="index"
+          class="pa-0"
+        >
+          <v-hover v-slot="{ hover }" open-delay="200">
+            <v-card
+              :elevation="hover ? 16 : 2"
+              height="300"
+              class="d-flex flex-column align-center mb-3"
+              text-align="center"
+              variant="outlined"
+            >
+              <v-spacer></v-spacer>
+
+              <v-btn color="red" small dark
+                >OFERTA:{{ producto.oferta }}%</v-btn
+              >
+
+              <v-img
+                :src="producto.imagen"
+                width="200"
+                height="200"
+                contain
+              ></v-img>
+              <v-card-text class="mt-n4">
+                <strong :class="{ 'on-hover': hover }">{{
+                  producto.nombre
+                }}</strong>
+              </v-card-text>
+              <v-card-text class="mt-n4" style="padding: 0px">
+                <strong
+                  v-if="producto.oferta"
+                  font-color="red"
+                  class="colPrecioOfer"
+                  >{{
+                    this.aplicarDescuento(producto.precio, producto.oferta)
+                  }}
+                  €</strong
+                >
+                <strong v-else :class="{ 'on-hover': hover }"
+                  >{{ producto.precio }} €</strong
+                >
+              </v-card-text>
+            </v-card>
+          </v-hover>
+        </v-col>
+      </v-row>
+      <v-row v-else>
         <v-col
           cols="12"
           sm="4"
@@ -178,8 +221,8 @@
             >
               <v-spacer></v-spacer>
 
-              <v-btn v-if="producto.oferta" color="black" small dark
-                >{{ producto.oferta }}%</v-btn
+              <v-btn v-if="producto.oferta" color="red" small dark
+                >OFERTA:{{ producto.oferta }}%</v-btn
               >
 
               <v-img
@@ -193,11 +236,26 @@
                   producto.nombre
                 }}</strong>
               </v-card-text>
+              <v-card-text class="mt-n4" style="padding: 0px">
+                <strong
+                  v-if="producto.oferta"
+                  font-color="red"
+                  class="colPrecioOfer"
+                  >{{
+                    this.aplicarDescuento(producto.precio, producto.oferta)
+                  }}
+                  €</strong
+                >
+                <strong v-else :class="{ 'on-hover': hover }"
+                  >{{ producto.precio }} €</strong
+                >
+              </v-card-text>
             </v-card>
           </v-hover>
         </v-col>
       </v-row>
     </v-col>
+
     <v-col v-else>
       <h1>Cargando...</h1>
     </v-col>
@@ -206,9 +264,31 @@
 
 <script>
 export default {
-  /*eslint-disable */
+  /*eslint-disable*/
   //Pasamos Propiedades del componente padre
   name: "ProductsView",
+
+  data() {
+    return {
+      saleFilter: false,
+      ofertasArray: [],
+      loadOfertas: false,
+    };
+  },
+  computed: {
+    async filterSalesArr() {
+      /*
+      const arrFiltrado = this.imgArray.filter(function (objeto) {
+        return objeto.hasOwnProperty("oferta");
+      });*/
+      debugger;
+      this.ofertasArray = await this.cargarOfertas();
+      this.loadOfertas = true;
+      debugger;
+      return this.ofertasArray;
+      console.log(this.ofertasArray);
+    },
+  },
   props: {
     carga: {
       type: Boolean,
@@ -223,7 +303,46 @@ export default {
       type: Array,
     },
   },
+  methods: {
+    aplicarDescuento(precio, porcentaje) {
+      const resultado = precio - (precio * porcentaje) / 100;
+      return resultado;
+    },
+    async cargarOfertas() {
+      let emptyArr = [];
+      let numberId = 0;
+      this.miImagen = "Pensando...";
+      const data = await fetch(
+        `http://localhost:3003/v1/api/productos/ofertas`
+      ).then((res) => res.json());
+      while (emptyArr.length < data.length) {
+        emptyArr.push(data[numberId]);
+        console.log(data);
+        numberId += 1;
+      }
+      return emptyArr;
+    },
+    filtrarOfertas() {
+      if (this.saleFilter) {
+        this.filterSalesArr();
+      }
+    },
+  },
+  watcher: {
+    saleFilter(newVal, oldVal) {
+      debugger;
+      console.log(this.saleFilter);
+    },
+  },
 };
 </script>
 
-<style></style>
+<style>
+.colPrecioOfer {
+  color: red;
+}
+
+.salesCheck {
+  color: black;
+}
+</style>

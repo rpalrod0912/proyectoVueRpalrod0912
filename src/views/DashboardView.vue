@@ -271,17 +271,7 @@ export default {
       console.log(this.carga);
     },
   },
-  watch: {
-    carga(val, oldval) {
-      /*
-            while (!val) {
-              getImageId();
-              this.imgArray.push(1);
-              if ((this.imgArray.length = 12)) this.carga = true;
-            }
-            */
-    },
-  },
+  watch: {},
   components: { LoginPage, HomePage, AppFooter, ProductsView },
 };
 </script>
