@@ -124,49 +124,14 @@
             TODOS
           </v-chip>
           <v-chip
-            @click="colorFilterState('Blanco')"
+            v-for="color in colores"
+            :key="color.color"
+            @click="colorFilterState(color.color)"
             filter
             class="ma-2"
-            color="lightgrey"
+            :color="color.estilo"
           >
-            BLANCO
-          </v-chip>
-
-          <v-chip
-            @click="colorFilterState('Negro')"
-            filter
-            class="ma-2"
-            color="grey"
-          >
-            NEGRO
-          </v-chip>
-
-          <v-chip
-            @click="colorFilterState('Azul')"
-            filter
-            class="ma-2"
-            color="blue"
-          >
-            AZUL
-          </v-chip>
-
-          <v-chip
-            @click="colorFilterState('Rojo')"
-            class="ma-2"
-            color="red"
-            text-color="white"
-            >ROJO</v-chip
-          >
-
-          <v-chip
-            @click="colorFilterState('Verde')"
-            filter
-            class="ma-2"
-            outlined
-            color="green"
-            text-color="white"
-          >
-            VERDE
+            {{ color.color }}
           </v-chip>
         </v-chip-group>
       </v-card>
@@ -177,10 +142,18 @@
           <v-spacer></v-spacer>
           <v-icon color="grey" small>mdi-close</v-icon>
         </v-toolbar>
-        <v-chip-group column multiple class="m1-2">
+        <v-chip-group column mandatory="m1-2">
           <v-chip
             filter
             color="blue white--text"
+            @click="sizeFilterState('Ninguno')"
+          >
+            TODOS
+          </v-chip>
+          <v-chip
+            filter
+            color="blue white--text"
+            @click="sizeFilterState(talla)"
             v-for="talla in tallas"
             :key="talla"
             :value="talla"
@@ -243,11 +216,11 @@
           </v-hover>
         </v-col>
       </v-row>
-      <v-row v-else-if="colorFilter">
+      <v-row v-else-if="filterValue">
         <v-col
           cols="12"
           sm="4"
-          v-for="(producto, index) in this.colorArray"
+          v-for="(producto, index) in this.filterArray"
           :key="index"
           class="pa-0"
         >
@@ -361,12 +334,34 @@ export default {
 
   data() {
     return {
+      colores: [
+        {
+          color: "Blanco",
+          estilo: "lightgrey",
+        },
+        {
+          color: "Negro",
+          estilo: "lightgrey",
+        },
+        {
+          color: "Azul",
+          estilo: "blue",
+        },
+        {
+          color: "Rojo",
+          estilo: "red",
+        },
+        {
+          color: "Verde",
+          estilo: "green",
+        },
+      ],
       saleFilter: false,
       ofertasArray: [],
-      colorArray: [],
+      filterArray: [],
       loadOfertas: false,
       sizesFilter: false,
-      colorFilter: false,
+      filterValue: false,
     };
   },
   computed: {
@@ -402,20 +397,50 @@ export default {
       const resultado = precio - (precio * porcentaje) / 100;
       return resultado;
     },
-    async colorFilterState(color) {
-      this.colorArray = [];
-      if (color === "Ninguno") {
-        this.colorFilter = false;
+
+    async sizeFilterState(talla) {
+      this.filterArray = [];
+      if (talla === "Ninguno") {
+        this.filterValue = false;
       } else {
-        this.colorFilter = true;
-        const myArr = await this.cargarColores(color);
-
-        this.colorArray = myArr;
-
-        console.log(myArr);
-        console.log(this.colorFilter);
+        const myArr = await this.cargarTallas(talla);
+        this.filterValue = true;
+        this.filterArray = myArr;
       }
     },
+
+    async colorFilterState(color) {
+      this.filterArray = [];
+      if (color === "Ninguno") {
+        this.filterValue = false;
+      } else {
+        const myArr = await this.cargarColores(color);
+        this.filterValue = true;
+        this.filterArray = myArr;
+        console.log(myArr);
+        console.log(this.filterValue);
+      }
+    },
+
+    async cargarTallas(talla) {
+      debugger;
+      let emptyArr = [];
+      let numberId = 0;
+      this.miImagen = "Pensando...";
+      const data = await fetch(
+        `http://localhost:3003/v1/api/productos/tallas`
+      ).then((res) => res.json());
+      const dataArr = [data];
+      while (emptyArr.length < dataArr[0][talla].length) {
+        emptyArr.push(dataArr[0][talla][numberId]);
+        debugger;
+
+        console.log(data);
+        numberId += 1;
+      }
+      return emptyArr;
+    },
+
     async cargarColores(color) {
       let emptyArr = [];
       let numberId = 0;
@@ -449,11 +474,6 @@ export default {
       if (this.saleFilter) {
         this.filterSalesArr();
       }
-    },
-  },
-  watcher: {
-    sizesFilter(newVal, oldVal) {
-      console.log("Hola");
     },
   },
 };
