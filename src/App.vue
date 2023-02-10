@@ -1,14 +1,12 @@
 <template>
   <v-app>
     <v-main>
-      <NavBar></NavBar>
-      <router-link to="/">Home</router-link> |
+      <NavBar></NavBar> <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link>
       <router-link to="/login">Login</router-link>
       <router-link to="/Productos">Productos</router-link>
       <router-link to="/Inicio">Inicio</router-link>
       <router-link to="Perfil">Perfil</router-link>
-
       <router-view />
     </v-main>
     <AppFooter></AppFooter>

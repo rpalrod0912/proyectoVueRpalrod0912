@@ -10,14 +10,7 @@
     >
       <v-row>
         <v-col cols="12" sm="12">
-          <h4 class="text-center">ZAPATOS</h4>
-        </v-col>
-        <v-col cols="12" sm="12">
-          <v-breadcrumbs :items="items" class="justify-center mt-n7" dark>
-            <template v-slot:divider>
-              <v-icon color="#7C92FE">mdi-chevron-right</v-icon>
-            </template>
-          </v-breadcrumbs>
+          <h4 class="text-center">NUESTROS PRODUCTOS</h4>
         </v-col>
       </v-row>
     </v-card>
@@ -84,8 +77,17 @@
         v-bind:imgArray="this.imgArray"
         :brands="this.brands"
         :tallas="this.tallas"
+        :page="this.page"
       ></ProductsView>
     </v-card>
+
+    <div class="text-center">
+      <v-pagination
+        v-model="page"
+        :length="numeroPaginas"
+        @click="cargarPagina(page)"
+      ></v-pagination>
+    </div>
   </v-container>
 </template>
 
@@ -97,32 +99,15 @@ import HomePage from "../components/HomePage.vue";
 
 import AppFooter from "@/components/AppFooter.vue";
 import ProductsView from "../components/ProductsView.vue";
-debugger;
 export default {
   name: "DashboardView",
   state: {},
   //Cuando la pagina se crea, realiza el metodo que llamemos en created
   created() {
-    this.getImage();
+    this.getPages();
+    this.cargarPagina(1);
   },
   data: () => ({
-    items: [
-      {
-        text: "Inicio",
-        disabled: false,
-        href: "breadcrumbs_home",
-      },
-      {
-        text: "Catalogo",
-        disabled: false,
-        href: "breadcrumbs_catalog",
-      },
-      {
-        text: "Hombre",
-        disabled: false,
-        href: "breadcrumbs_hombre",
-      },
-    ],
     styles: [
       { title: "Estilo de Vida", count: "1" },
       { title: "Running", count: "23" },
@@ -159,124 +144,30 @@ export default {
       "M",
       "L",
     ],
-    /*
-        productos: [
-          {
-            class: "pa-0",
-            sold: "-20%",
-            image: "1.png",
-            title: "KD 8 EXT",
-            price: "$ 145.00",
-          },
-          {
-            class: "pa-0",
-            sold: "-30%",
-            image: "2.png",
-            title: "Jordan Galaxy",
-            price: "$ 599.00",
-          },
-          {
-            class: "py-0 pl-0",
-            sold: "-17%",
-            image: "3.png",
-            title: "Nike SB Trainerendor Leathe",
-            price: "$ 190.00",
-          },
-          {
-            class: "pa-0",
-            sold: "-22%",
-            image: "4.png",
-            title: "Air Jordan Spike 40 iD",
-            price: "$ 220.00",
-          },
-          {
-            class: "pa-0",
-            sold: "-18%",
-            image: "5.png",
-            title: "Nike Air Footscape Magista Flyknit",
-            price: "$ 235.00",
-          },
-          {
-            class: "py-0 pl-0",
-            sold: "-40%",
-            image: "6.png",
-            title: "Nike Air Zoom Huarache 2k4",
-            price: "$ 190.00",
-          },
-          {
-            class: "pa-0",
-            sold: "-13%",
-            image: "7.png",
-            title: "Jordan Horizon",
-            price: "$ 230.00",
-          },
-          {
-            class: "pa-0",
-            sold: "-15%",
-            image: "8.png",
-            title: "Air Jordan xx9 Low",
-            price: "$ 185.00",
-          },
-          {
-            class: "py-0 pl-0",
-            sold: "-10%",
-            image: "9.png",
-            title: "LeBron XIII Premium AS iD",
-            price: "$ 265.00",
-          },
-          {
-            class: "pa-0",
-            sold: "-19%",
-            image: "10.png",
-            title: "Air Jordan 1 Retro Hight Nouveau",
-            price: "$ 190.00",
-          },
-          {
-            class: "pa-0",
-            sold: "-16%",
-            image: "11.png",
-            title: "Nike Air Presto",
-            price: "$ 175.00",
-          },
-          {
-            class: "py-0 pl-0",
-            sold: "-10%",
-            image: "12.png",
-            title: "KD 8 Premium AS iD",
-            price: "$ 245.00",
-          },
-        ],
-        */
     imgArray: [],
     carga: false,
+    numeroPaginas: [],
+    page: 1,
   }),
   methods: {
-    async getImage() {
-      let numberId = 0;
-      debugger;
-      this.miImagen = "Pensando...";
-      while (this.imgArray.length < 12) {
-        const data = await fetch(
-          `http://localhost:3003/v1/api/productos/`
-        ).then((res) => res.json());
-        debugger;
-        var objetoData = data.find((objeto) => {
-          console.log(objeto);
-          return objeto.id === `product${1}`;
-        });
-        console.log(data);
-        this.imgArray.push(data[numberId]);
-        console.log(this.imgArray);
-        console.log(this.carga);
-        numberId += 1;
-      }
-      debugger;
-      console.log(this.imgArray);
+    async cargarPagina(page) {
+      this.carga = false;
+      const data = await fetch(
+        `http://localhost:3003/v1/api/productos/paginas/${page}`
+      ).then((res) => res.json());
+      this.imgArray = data;
       this.carga = true;
-      console.log(this.carga);
+    },
+
+    async getPages() {
+      const data = await fetch(
+        `http://localhost:3003/v1/api/productos/paginas`
+      ).then((res) => res.json());
+      const cantidadPaginas = Object.keys(data).length;
+      this.numeroPaginas = cantidadPaginas;
     },
   },
-  watch: {},
+
   components: { LoginPage, HomePage, AppFooter, ProductsView },
 };
 </script>

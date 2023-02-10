@@ -6,11 +6,13 @@
       show-arrows-on-hover="hover"
       v-if="this.carga"
     >
-      <v-carousel-item v-for="(elemento, i) in carrouselElem[0]" :key="i">
+      <v-carousel-item v-for="(elemento, i) in carrouselElem" :key="i">
         <v-sheet :color="colores[i]" height="100%">
-          <div class="d-flex fill-height justify-center align-center">
-            <div class="text-h4">{{ elemento.title }}</div>
-            <v-img :src="elemento.image" />
+          <div class="cartaCarrusel">
+            <div class="text-h4 tituloProducto">
+              {{ carrouselElem[i].nombre }}
+            </div>
+            <img class="imgProducto" :src="carrouselElem[i].imagen" />
           </div>
         </v-sheet>
       </v-carousel-item>
@@ -68,7 +70,7 @@ export default {
   //Ejemplo usando https://fakestoreapi.com/
   name: "InicioView",
   created() {
-    this.getHomeProducts(5);
+    this.getHomeProducts();
   },
   data() {
     return {
@@ -104,18 +106,40 @@ export default {
     };
   },
   methods: {
-    async getHomeProducts(limit) {
+    async getHomeProducts() {
+      let numberId = 0;
       debugger;
-      const data = await fetch(
-        `https://fakestoreapi.com/products?limit=${limit}`
-      ).then((res) => res.json());
+      const data = await fetch(`http://localhost:3003/v1/api/productos/`).then(
+        (res) => res.json()
+      );
+      while (this.carrouselElem.length < 5) {
+        this.carrouselElem.push(data[numberId]);
+        numberId += 1;
+      }
+
       console.log(data);
-      this.carrouselElem.push(data);
       console.log(this.carrouselElem);
       console.log(this.carga);
+      console.log(this.carrouselElem[0].imagen);
 
       this.carga = true;
     },
   },
 };
 </script>
+<style>
+.cartaCarrusel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.imgProducto {
+  margin-top: 1.8rem;
+  max-height: 30vh;
+}
+.tituloProducto {
+  margin-top: 1.6rem;
+}
+</style>

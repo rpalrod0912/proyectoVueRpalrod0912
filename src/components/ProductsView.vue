@@ -361,23 +361,13 @@ export default {
       filterArray: [],
       loadOfertas: false,
       sizesFilter: false,
+      tipoFiltro: null,
       filterValue: false,
+      tallaSeleccionada: null,
+      colorSeleccionado: null,
     };
   },
-  computed: {
-    async filterSalesArr() {
-      /*
-      const arrFiltrado = this.imgArray.filter(function (objeto) {
-        return objeto.hasOwnProperty("oferta");
-      });*/
-      debugger;
-      this.ofertasArray = await this.cargarOfertas();
-      this.loadOfertas = true;
-      debugger;
-      return this.ofertasArray;
-      console.log(this.ofertasArray);
-    },
-  },
+  computed: {},
   props: {
     carga: {
       type: Boolean,
@@ -391,85 +381,75 @@ export default {
     tallas: {
       type: Array,
     },
+    page: {
+      type: Number,
+    },
+  },
+  watch: {
+    imgArray(oldValue, newValue) {
+      if (JSON.stringify(oldValue) !== JSON.stringify(newValue)) {
+        debugger;
+        if (this.saleFilter) {
+          this.filterSalesArr();
+        }
+        if (this.filterValue) {
+          if (this.tipoFiltro === "tallas") {
+            this.sizeFilterState(this.tallaSeleccionada);
+          }
+          if (this.tipoFiltro === "color") {
+            this.colorFilterState(this.colorSeleccionado);
+          }
+        }
+      }
+    },
   },
   methods: {
     aplicarDescuento(precio, porcentaje) {
       const resultado = precio - (precio * porcentaje) / 100;
       return resultado;
     },
-
-    async sizeFilterState(talla) {
-      this.filterArray = [];
+    filterSalesArr() {
+      debugger;
+      this.loadOfertas = true;
+      this.ofertasArray = this.imgArray.filter((objeto) =>
+        objeto.hasOwnProperty("oferta")
+      );
+      return this.ofertasArray;
+    },
+    sizeFilterState(talla) {
+      this.tipoFiltro = "tallas";
+      debugger;
+      this.tallaSeleccionada = talla;
+      console.log(this.tallaSeleccionada);
+      const tallasRopa = ["S", "M", "L", "XL"];
       if (talla === "Ninguno") {
         this.filterValue = false;
-      } else {
-        const myArr = await this.cargarTallas(talla);
+      } else if (!tallasRopa.includes(talla)) {
+        this.filterArray = this.imgArray.filter((objeto) =>
+          objeto.talla.includes(parseInt(talla))
+        );
         this.filterValue = true;
-        this.filterArray = myArr;
+      } else {
+        this.filterArray = this.imgArray.filter((objeto) =>
+          objeto.talla.includes(talla)
+        );
+        this.filterValue = true;
       }
     },
 
-    async colorFilterState(color) {
-      this.filterArray = [];
+    colorFilterState(color) {
+      this.tipoFiltro = "color";
+      this.colorSeleccionado = color;
       if (color === "Ninguno") {
         this.filterValue = false;
       } else {
-        const myArr = await this.cargarColores(color);
+        this.filterArray = this.imgArray.filter((objeto) =>
+          objeto.color.includes(color)
+        );
         this.filterValue = true;
-        this.filterArray = myArr;
-        console.log(myArr);
-        console.log(this.filterValue);
       }
     },
 
-    async cargarTallas(talla) {
-      debugger;
-      let emptyArr = [];
-      let numberId = 0;
-      this.miImagen = "Pensando...";
-      const data = await fetch(
-        `http://localhost:3003/v1/api/productos/tallas`
-      ).then((res) => res.json());
-      const dataArr = [data];
-      while (emptyArr.length < dataArr[0][talla].length) {
-        emptyArr.push(dataArr[0][talla][numberId]);
-        debugger;
-
-        console.log(data);
-        numberId += 1;
-      }
-      return emptyArr;
-    },
-
-    async cargarColores(color) {
-      let emptyArr = [];
-      let numberId = 0;
-      this.miImagen = "Pensando...";
-      const data = await fetch(
-        `http://localhost:3003/v1/api/productos/colores`
-      ).then((res) => res.json());
-      const dataArr = [data];
-      while (emptyArr.length < dataArr[0][color].length) {
-        emptyArr.push(dataArr[0][color][numberId]);
-        console.log(data);
-        numberId += 1;
-      }
-      return emptyArr;
-    },
-    async cargarOfertas() {
-      let emptyArr = [];
-      let numberId = 0;
-      this.miImagen = "Pensando...";
-      const data = await fetch(
-        `http://localhost:3003/v1/api/productos/ofertas`
-      ).then((res) => res.json());
-      while (emptyArr.length < data.length) {
-        emptyArr.push(data[numberId]);
-        console.log(data);
-        numberId += 1;
-      }
-      return emptyArr;
-    },
     filtrarOfertas() {
       if (this.saleFilter) {
         this.filterSalesArr();
