@@ -1,36 +1,24 @@
 <template>
-  <v-app-bar app color="#3853D8" dark>
-    <!--<v-btn icon
-      >º
-      <v-icon>mdi-magnify</v-icon>
-    </v-btn>
-  -->
-    <!--
-    <v-toolbar-title>
-      <span class="caption">Select</span><br />Categoría
-    </v-toolbar-title>
-    -->
+  <v-app-bar class="header" app color="#3853D8" dark>
     <div class="titulo">
       <h4>Rafael Palomino</h4>
     </div>
 
     <v-spacer></v-spacer>
-    <v-icon>mdi-magnify</v-icon>
-    <!--
-    <v-autocomplete
-      v-model="select"
-      :loading="loading"
-      :items="items"
-      :search-input.sync="search"
-      cache-items
-      class="mx-4"
-      flat
-      hide-no-data
-      hide-details
-      label="BUscar Productos"
-      solo-inverted
-    ></v-autocomplete>
-    -->
+    <div class="busquedaProd">
+      <v-text-field
+        color="white"
+        v-model="text"
+        filled
+        variant="solo"
+        label="Filled"
+        clearable
+      ></v-text-field>
+    </div>
+    <v-btn icon class="mx-1">
+      <v-icon>mdi-magnify</v-icon>
+    </v-btn>
+    <SearchBar />
     <v-divider vertical></v-divider>
     <v-btn icon class="mx-1">
       <v-icon>mdi-account-outline</v-icon>
@@ -83,96 +71,23 @@
 </template>
 
 <script>
-/* eslint-disable */
+/*eslint-disable */
 export default {
   name: "NavBar",
-  data: () => ({
-    items: [],
-    loading: false,
-    search: null,
-    states: [
-      "Alabama",
-      "Alaska",
-      "American Samoa",
-      "Arizona",
-      "Arkansas",
-      "California",
-      "Colorado",
-      "Connecticut",
-      "Delaware",
-      "District of Columbia",
-      "Federated States of Micronesia",
-      "Florida",
-      "Georgia",
-      "Guam",
-      "Hawaii",
-      "Idaho",
-      "Illinois",
-      "Indiana",
-      "Iowa",
-      "Kansas",
-      "Kentucky",
-      "Louisiana",
-      "Maine",
-      "Marshall Islands",
-      "Maryland",
-      "Massachusetts",
-      "Michigan",
-      "Minnesota",
-      "Mississippi",
-      "Missouri",
-      "Montana",
-      "Nebraska",
-      "Nevada",
-      "New Hampshire",
-      "New Jersey",
-      "New Mexico",
-      "New York",
-      "North Carolina",
-      "North Dakota",
-      "Northern Mariana Islands",
-      "Ohio",
-      "Oklahoma",
-      "Oregon",
-      "Palau",
-      "Pennsylvania",
-      "Puerto Rico",
-      "Rhode Island",
-      "South Carolina",
-      "South Dakota",
-      "Tennessee",
-      "Texas",
-      "Utah",
-      "Vermont",
-      "Virgin Island",
-      "Virginia",
-      "Washington",
-      "West Virginia",
-      "Wisconsin",
-      "Wyoming",
-    ],
-  }),
-  watch: {
-    search(val) {
-      val && val !== this.select && this.querySelections(val);
-    },
-  },
-  methods: {
-    querySelections(v) {
-      this.loading = true;
-      // Simulated ajax query
-      setTimeout(() => {
-        this.items = this.states.filter((e) => {
-          return (e || "").toLowerCase().indexOf((v || "").toLowerCase()) > -1;
-        });
-        this.loading = false;
-      }, 500);
-    },
+  data() {
+    return { text: "" };
   },
 };
 </script>
 
 <style>
+.header {
+  height: 73px;
+}
+.busquedaProd {
+  width: 20rem;
+  margin-top: 1.4rem;
+}
 .titulo {
   display: flex;
   position: absolute;
