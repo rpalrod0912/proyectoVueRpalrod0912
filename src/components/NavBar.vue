@@ -11,7 +11,7 @@
         v-model="text"
         filled
         variant="solo"
-        label="Filled"
+        label="Buscar Producto"
         clearable
       ></v-text-field>
     </div>
