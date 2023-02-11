@@ -87,6 +87,7 @@ export default {
       });
     },
     async fetchAllProductsByValue(val) {
+      debugger;
       const data = await fetch(`http://localhost:3003/v1/api/productos`).then(
         (res) => res.json()
       );
@@ -99,7 +100,7 @@ export default {
             .split(" ")
             .join("")
             .toLowerCase()
-            .includes(val.toLowerCase())
+            .includes(val.split(" ").join("").toLowerCase())
         ) {
           encontrados.push(data[index]);
         }
@@ -111,6 +112,7 @@ export default {
   },
   watch: {
     text(newval, oldval) {
+      debugger;
       this.fetchAllProductsByValue(newval);
     },
   },

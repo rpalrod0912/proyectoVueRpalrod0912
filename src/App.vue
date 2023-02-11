@@ -14,18 +14,7 @@
   </v-app>
 </template>
 
-<!--
-   <v-app>
-    <v-main>
-      <NavBar class="index"></NavBar>
-      <DashBoard></DashBoard>
-      <AppFooter></AppFooter>
-    </v-main>
-  </v-app>
--->
-
 <script>
-//import HelloWorld from "./components/HelloWorld.vue";
 import NavBar from "./components/NavBar.vue";
 import AppFooter from "./components/AppFooter.vue";
 /*eslint-disable*/
