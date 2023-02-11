@@ -15,7 +15,7 @@
         clearable
       ></v-text-field>
     </div>
-    <v-btn icon class="mx-1">
+    <v-btn @click="buscarElementos" icon class="mx-1">
       <v-icon>mdi-magnify</v-icon>
     </v-btn>
     <SearchBar />
@@ -61,7 +61,7 @@
           ></v-list-item
         >
         <v-list-item
-          ><router-link to="Perfil"
+          ><router-link to="/Perfil"
             ><v-list-item-title>Perfil</v-list-item-title></router-link
           ></v-list-item
         >
@@ -75,12 +75,54 @@
 export default {
   name: "NavBar",
   data() {
-    return { text: "" };
+    return { text: "", searchsArray: [] };
+  },
+  methods: {
+    buscarElementos() {
+      debugger;
+      this.$router.push({
+        name: "BusquedasView",
+        query: { prodFiltrados: JSON.stringify(this.searchsArray) },
+      });
+      this.$router.go(1);
+    },
+    async fetchAllProductsByValue(val) {
+      const data = await fetch(`http://localhost:3003/v1/api/productos`).then(
+        (res) => res.json()
+      );
+      let index = 0;
+      debugger;
+      let encontrados = [];
+      while (index < data.length) {
+        if (
+          data[index].nombre
+            .split(" ")
+            .join("")
+            .toLowerCase()
+            .includes(val.toLowerCase())
+        ) {
+          encontrados.push(data[index]);
+        }
+        index += 1;
+      }
+      debugger;
+      this.searchsArray = encontrados;
+    },
+  },
+  watch: {
+    text(newval, oldval) {
+      this.fetchAllProductsByValue(newval);
+    },
   },
 };
 </script>
 
 <style>
+.linkRouter {
+  text-decoration: none;
+  text-decoration: inherit;
+  color: inherit;
+}
 .header {
   height: 73px;
 }
