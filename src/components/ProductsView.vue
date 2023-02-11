@@ -197,7 +197,7 @@
                   producto.nombre
                 }}</strong>
               </v-card-text>
-              <ProductsHover :isHovering="isHovering" />
+              <ProductsHover :isHovering="isHovering" :productData="producto" />
 
               <v-card-text class="mt-n4" style="padding: 0px">
                 <strong
@@ -249,7 +249,8 @@
                   producto.nombre
                 }}</strong>
               </v-card-text>
-              <ProductsHover :isHovering="isHovering" />
+              <ProductsHover :isHovering="isHovering" :productData="producto" />
+
               <v-card-text class="mt-n4" style="padding: 0px">
                 <strong
                   v-if="producto.oferta"
@@ -296,7 +297,8 @@
                   producto.nombre
                 }}</strong>
               </v-card-text>
-              <ProductsHover :isHovering="isHovering" />
+              <ProductsHover :isHovering="isHovering" :productData="producto" />
+
               <v-card-text class="mt-n4" style="padding: 0px">
                 <strong
                   v-if="producto.oferta"
@@ -458,23 +460,13 @@ export default {
 </script>
 
 <style>
-.v-btn {
-  opacity: 100%;
-}
 .botonHover {
   opacity: 100%;
 }
 .colPrecioOfer {
   color: red;
 }
-.show-btns {
-  color: rgba(255, 255, 255, 1) !important;
-}
-.hoverClass {
-  background-color: #70bcff;
-  width: 100%;
-  opacity: 100%;
-}
+
 .salesCheck {
   color: black;
 }

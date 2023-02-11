@@ -5,13 +5,13 @@
       class="d-flex transition-fast-in-fast-out blue v-card--reveal display-3 white--text hoverClass"
       style="height: 100%; opacity: 76%"
     >
-      <v-btn rounded color="black" class="ml-2 botonHover">
+      <v-btn @click="verProducto" rounded color="black" class="ml-2 botonHover">
         <v-icon>mdi-cart-outline</v-icon>
       </v-btn>
       <v-btn rounded color="black" class="ml-2 botonHover">
         <v-icon>mdi-content-copy</v-icon>
       </v-btn>
-      <v-btn fab small color="black" class="ml-2 botonHover">
+      <v-btn rounded color="black" class="ml-2 botonHover">
         <v-icon>mdi-heart-outline</v-icon>
       </v-btn>
     </div>
@@ -19,12 +19,36 @@
 </template>
 
 <script>
+/*eslint-disable */
 export default {
   name: "ProductsHover",
+
   props: {
     isHovering: { type: Boolean },
+    productData: { type: Object },
+  },
+  methods: {
+    verProducto() {
+      this.$router.push({
+        name: "ProductView",
+        query: { prodData: JSON.stringify(this.productData) },
+      });
+    },
+  },
+  watch: {
+    isHovering(oldval, newVal) {
+      if (oldval) {
+        console.log(this.productData);
+      }
+    },
   },
 };
 </script>
 
-<style></style>
+<style>
+.hoverClass {
+  background-color: #70bcff;
+  width: 100%;
+  opacity: 100%;
+}
+</style>

@@ -76,7 +76,6 @@
 <script>
 /*eslint-disable*/
 
-import ProductsView from "../components/ProductsView.vue";
 export default {
   name: "BusquedasView",
   state: {},
@@ -90,7 +89,6 @@ export default {
     };
   },
   created() {
-    debugger;
     this.prodFiltrados = JSON.parse(this.$route.query.prodFiltrados);
     console.log(this.prodFiltrados);
   },

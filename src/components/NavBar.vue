@@ -79,8 +79,6 @@ export default {
   },
   methods: {
     buscarElementos() {
-      debugger;
-
       this.$router.push({
         name: "BusquedasView",
         query: { prodFiltrados: JSON.stringify(this.searchsArray) },
