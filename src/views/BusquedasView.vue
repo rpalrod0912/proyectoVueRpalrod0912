@@ -11,7 +11,6 @@
       <v-row>
         <v-col cols="12" sm="12">
           <h2 class="text-center">RESULTADOS DE BÚSQUEDA</h2>
-
           <h3 class="text-center">
             Hemos encontrado:{{ this.prodFiltrados.length }} productos
           </h3>
@@ -86,25 +85,20 @@ export default {
   },
   data() {
     return {
+      text: "",
       prodFiltrados: [],
     };
   },
   created() {
     debugger;
     this.prodFiltrados = JSON.parse(this.$route.query.prodFiltrados);
-    console.log(this.prodFiltrados);
+    console.log(this.text);
   },
   methods: {
     aplicarDescuento(precio, porcentaje) {
       debugger;
       const resultado = precio - (precio * porcentaje) / 100;
       return resultado;
-    },
-    watch: {
-      prodFiltrados(newval, oldval) {
-        debugger;
-        this.prodFiltrados = JSON.parse(this.$route.query.prodFiltrados);
-      },
     },
   },
 

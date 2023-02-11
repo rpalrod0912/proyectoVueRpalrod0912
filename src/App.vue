@@ -7,7 +7,7 @@
       <router-link to="/Productos">Productos</router-link>
       <router-link to="/Inicio">Inicio</router-link>
       <router-link to="Perfil">Perfil</router-link>
-      <router-view />
+      <router-view :key="$route.fullPath" />
     </v-main>
     <AppFooter></AppFooter>
   </v-app>

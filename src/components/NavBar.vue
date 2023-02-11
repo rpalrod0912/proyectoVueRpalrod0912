@@ -80,11 +80,11 @@ export default {
   methods: {
     buscarElementos() {
       debugger;
+
       this.$router.push({
         name: "BusquedasView",
         query: { prodFiltrados: JSON.stringify(this.searchsArray) },
       });
-      this.$router.go(1);
     },
     async fetchAllProductsByValue(val) {
       const data = await fetch(`http://localhost:3003/v1/api/productos`).then(
