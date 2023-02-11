@@ -1,12 +1,7 @@
 <template>
   <v-app>
     <v-main>
-      <NavBar></NavBar> <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-      <router-link to="/login">Login</router-link>
-      <router-link to="/Productos">Productos</router-link>
-      <router-link to="/Inicio">Inicio</router-link>
-      <router-link to="Perfil">Perfil</router-link>
+      <NavBar></NavBar>
       <!--Importante marcar esto para que el router cargue los componentes de nuevo cuando usesmos su metodos $route-->
       <router-view :key="$route.fullPath" />
     </v-main>

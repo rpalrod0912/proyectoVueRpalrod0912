@@ -36,32 +36,32 @@
 
       <v-list>
         <v-list-item
-          ><router-link to="/"
+          ><router-link class="linkRouter" to="/"
             ><v-list-item-title>Home</v-list-item-title></router-link
           ></v-list-item
         >
         <v-list-item
-          ><router-link to="/about"
+          ><router-link class="linkRouter" to="/about"
             ><v-list-item-title>About</v-list-item-title></router-link
           ></v-list-item
         >
         <v-list-item
-          ><router-link to="/login"
+          ><router-link class="linkRouter" to="/login"
             ><v-list-item-title>Login</v-list-item-title></router-link
           ></v-list-item
         >
         <v-list-item
-          ><router-link to="/Productos"
+          ><router-link class="linkRouter" to="/Productos"
             ><v-list-item-title>Productos</v-list-item-title></router-link
           ></v-list-item
         >
         <v-list-item
-          ><router-link to="/Inicio"
+          ><router-link class="linkRouter" to="/Inicio"
             ><v-list-item-title>Inicio</v-list-item-title></router-link
           ></v-list-item
         >
         <v-list-item
-          ><router-link to="/Perfil"
+          ><router-link class="linkRouter" to="/Perfil"
             ><v-list-item-title>Perfil</v-list-item-title></router-link
           ></v-list-item
         >
@@ -87,12 +87,10 @@ export default {
       });
     },
     async fetchAllProductsByValue(val) {
-      debugger;
       const data = await fetch(`http://localhost:3003/v1/api/productos`).then(
         (res) => res.json()
       );
       let index = 0;
-      debugger;
       let encontrados = [];
       while (index < data.length) {
         if (
@@ -106,7 +104,6 @@ export default {
         }
         index += 1;
       }
-      debugger;
       this.searchsArray = encontrados;
     },
   },

@@ -173,13 +173,12 @@
           :key="index"
           class="pa-0"
         >
-          <v-hover v-slot="{ hover }" open-delay="200">
+          <v-hover v-slot:default="{ isHovering, props }" open-delay="100">
             <v-card
-              :elevation="hover ? 16 : 2"
+              v-bind="props"
               height="300"
               class="d-flex flex-column align-center mb-3"
               text-align="center"
-              variant="outlined"
             >
               <v-spacer></v-spacer>
 
@@ -198,6 +197,8 @@
                   producto.nombre
                 }}</strong>
               </v-card-text>
+              <ProductsHover :isHovering="isHovering" />
+
               <v-card-text class="mt-n4" style="padding: 0px">
                 <strong
                   v-if="producto.oferta"
@@ -224,13 +225,12 @@
           :key="index"
           class="pa-0"
         >
-          <v-hover v-slot="{ hover }" open-delay="200">
+          <v-hover v-slot:default="{ isHovering, props }" open-delay="100">
             <v-card
-              :elevation="hover ? 16 : 2"
+              v-bind="props"
               height="300"
               class="d-flex flex-column align-center mb-3"
               text-align="center"
-              variant="outlined"
             >
               <v-spacer></v-spacer>
 
@@ -249,6 +249,7 @@
                   producto.nombre
                 }}</strong>
               </v-card-text>
+              <ProductsHover :isHovering="isHovering" />
               <v-card-text class="mt-n4" style="padding: 0px">
                 <strong
                   v-if="producto.oferta"
@@ -275,13 +276,12 @@
           :key="index"
           class="pa-0"
         >
-          <v-hover v-slot="{ hover }" open-delay="200">
+          <v-hover v-slot:default="{ isHovering, props }" open-delay="100">
             <v-card
-              :elevation="hover ? 16 : 2"
+              v-bind="props"
               height="300"
               class="d-flex flex-column align-center mb-3"
               text-align="center"
-              variant="outlined"
             >
               <v-spacer></v-spacer>
 
@@ -289,17 +289,14 @@
                 >OFERTA:{{ producto.oferta }}%</v-btn
               >
 
-              <v-img
-                :src="producto.imagen"
-                width="200"
-                height="200"
-                contain
-              ></v-img>
+              <v-img :src="producto.imagen" width="200" height="200" contain>
+              </v-img>
               <v-card-text class="mt-n4">
                 <strong :class="{ 'on-hover': hover }">{{
                   producto.nombre
                 }}</strong>
               </v-card-text>
+              <ProductsHover :isHovering="isHovering" />
               <v-card-text class="mt-n4" style="padding: 0px">
                 <strong
                   v-if="producto.oferta"
@@ -327,11 +324,12 @@
 </template>
 
 <script>
+import ProductsHover from "./ProductsHover.vue";
+
 export default {
   /*eslint-disable*/
   //Pasamos Propiedades del componente padre
   name: "ProductsView",
-
   data() {
     return {
       colores: [
@@ -356,6 +354,7 @@ export default {
           estilo: "green",
         },
       ],
+      icons: ["mdi-rewind", "mdi-play", "mdi-fast-forward"],
       saleFilter: false,
       ofertasArray: [],
       filterArray: [],
@@ -436,7 +435,6 @@ export default {
         this.filterValue = true;
       }
     },
-
     colorFilterState(color) {
       this.tipoFiltro = "color";
       this.colorSeleccionado = color;
@@ -449,21 +447,34 @@ export default {
         this.filterValue = true;
       }
     },
-
     filtrarOfertas() {
       if (this.saleFilter) {
         this.filterSalesArr();
       }
     },
   },
+  components: { ProductsHover },
 };
 </script>
 
 <style>
+.v-btn {
+  opacity: 100%;
+}
+.botonHover {
+  opacity: 100%;
+}
 .colPrecioOfer {
   color: red;
 }
-
+.show-btns {
+  color: rgba(255, 255, 255, 1) !important;
+}
+.hoverClass {
+  background-color: #70bcff;
+  width: 100%;
+  opacity: 100%;
+}
 .salesCheck {
   color: black;
 }

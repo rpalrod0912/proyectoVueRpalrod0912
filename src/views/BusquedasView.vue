@@ -21,7 +21,7 @@
       <v-row>
         <v-col
           cols="12"
-          sm="4"
+          sm="6"
           v-for="(producto, index) in this.prodFiltrados"
           :key="index"
           class="pa-0"
@@ -92,7 +92,7 @@ export default {
   created() {
     debugger;
     this.prodFiltrados = JSON.parse(this.$route.query.prodFiltrados);
-    console.log(this.text);
+    console.log(this.prodFiltrados);
   },
   methods: {
     aplicarDescuento(precio, porcentaje) {

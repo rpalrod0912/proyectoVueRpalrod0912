@@ -41,7 +41,7 @@
             <v-hover v-slot:default="{ isHovering, props }">
               <v-card
                 v-bind="props"
-                :color="isHovering ? 'primary' : undefined"
+                :color="isHovering ? 'blue' : undefined"
                 height="300px"
               >
                 <v-img
