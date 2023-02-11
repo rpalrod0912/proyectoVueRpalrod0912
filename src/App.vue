@@ -7,6 +7,7 @@
       <router-link to="/Productos">Productos</router-link>
       <router-link to="/Inicio">Inicio</router-link>
       <router-link to="Perfil">Perfil</router-link>
+      <!--Importante marcar esto para que el router cargue los componentes de nuevo cuando usesmos su metodos $route-->
       <router-view :key="$route.fullPath" />
     </v-main>
     <AppFooter></AppFooter>
