@@ -33,6 +33,9 @@
                 </v-checkbox>
               </v-col>
             </v-row>
+            <h3 style="color: red" v-if="userNotFound">
+              USUARIO NO ENCONTRADO
+            </h3>
             <v-btn
               :disabled="!valid"
               color="success"
@@ -55,13 +58,30 @@ export default {
   props: {
     validacionMail: { Function },
     validacionContraseña: { Function },
-    logIn: { Function },
   },
   data: () => ({
     valid: true,
     emailLogIn: "",
     pwdLogIn: "",
+    userNotFound: false,
   }),
+  methods: {
+    logIn() {
+      this.$refs.form.validate();
+      this.encontrarUsuario(this.emailLogIn, this.pwdLogIn);
+    },
+    async encontrarUsuario(mail, contra) {
+      const datosEnviar = mail + "&" + contra;
+      const foundUser = await fetch(
+        `http://localhost:3003/v1/api/users/login/${datosEnviar}`
+      ).then((res) => res.json());
+      console.log(foundUser);
+      if (foundUser !== "NOTFOUND") {
+        this.$router.push("/");
+      }
+      this.userNotFound = true;
+    },
+  },
 };
 </script>
 

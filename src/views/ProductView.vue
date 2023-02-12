@@ -29,27 +29,57 @@
               margin: 4rem;
             "
           >
-            <h1>Otras Caracteristicas del producto</h1>
-            <h2>Marca:{{ productData.marca }}</h2>
-            <h2>Tipo de Calzado: {{ productData.sexo }}</h2>
-            <h2>Categoría: {{ productData.categoria }}</h2>
-            <h2>Utilidad: {{ productData.utilidad }}</h2>
+            <h2>Descripción</h2>
+            <p>{{ productData.descripcion }}</p>
           </div>
         </div>
         <div class="textoPresentacion">
-          <h2>Descripción</h2>
-          <p>{{ productData.descripcion }}</p>
+          <h1>Caracteristicas del producto</h1>
+          <p>Marca:{{ productData.marca }}</p>
+          <p>Tipo de Calzado: {{ productData.sexo }}</p>
+          <p>Categoría: {{ productData.categoria }}</p>
+          <p>Utilidad: {{ productData.utilidad }}</p>
+
           <br />
           <h2>Colores Disponibles</h2>
+          <v-chip-group column mandatory>
+            <v-chip
+              v-for="colorProd in productData.color"
+              :key="colorProd"
+              filter
+              @click="selectColor(colorProd)"
+              class="ma-2"
+              :color="encontrarColor(colorProd)"
+            >
+              {{ colorProd }}
+            </v-chip>
+          </v-chip-group>
 
-          <v-chip
-            v-for="producto in productData.color"
-            :key="producto"
-            class="ma-2"
-            :color="encontrarColor(producto)"
+          <h2>Tallas Disponibles</h2>
+          <v-chip-group column mandatory>
+            <v-chip
+              v-for="talla in productData.talla"
+              filter
+              @click="selectTalla(talla)"
+              :key="talla"
+              class="ma-2"
+            >
+              {{ talla }}
+            </v-chip>
+          </v-chip-group>
+          <div>
+            <p v-if="!boton" style="color: red">
+              Selecciona un color y una talla para añadir al carrito
+            </p>
+          </div>
+
+          <v-btn
+            rounded="pill"
+            :disabled="!boton"
+            style="margin-top: 2rem"
+            color="#69F801"
+            >AÑADIR AL carrito</v-btn
           >
-            {{ producto }}
-          </v-chip>
         </div>
       </div>
     </v-card>
@@ -67,6 +97,9 @@ export default {
   data() {
     return {
       productData: null,
+      tallaElegida: false,
+      colorElegido: false,
+      boton: false,
       colores: [
         {
           color: "Blanco",
@@ -80,6 +113,8 @@ export default {
           color: "Azul",
           estilo: "blue",
         },
+        { color: "Gris", estilo: "lightgrey" },
+        { color: "Rosa", estilo: "pink" },
         {
           color: "Rojo",
           estilo: "red",
@@ -92,8 +127,28 @@ export default {
     };
   },
   methods: {
+    activarBoton() {
+      if (this.tallaElegida !== false && this.colorElegido !== false) {
+        this.boton = true;
+      }
+    },
+    selectTalla(talla) {
+      if (this.tallaElegida !== talla) {
+        this.tallaElegida = talla;
+        console.log(this.tallaElegida);
+        this.activarBoton();
+      }
+    },
+    selectColor(color) {
+      if (this.colorElegido !== color) {
+        this.colorElegido = color;
+        console.log(this.colorElegido);
+        this.activarBoton();
+      }
+    },
     encontrarColor(valor) {
       debugger;
+      console.log(this.productData);
       const encontrarEstilo = this.colores.find((val) => val.color === valor);
       return encontrarEstilo.estilo;
     },
@@ -102,12 +157,12 @@ export default {
 </script>
 
 <style>
-.ordenarCaracteristicas {
-}
 .presentacion {
+  justify-content: space-evenly;
   margin-top: 1.4rem;
   margin-bottom: 1.4rem;
   display: flex;
+  flex-wrap: wrap;
   margin-left: 6rem;
   margin-right: 6rem;
 }

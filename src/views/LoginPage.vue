@@ -9,7 +9,6 @@
                 <LoginCom
                   :validacionMail="this.validacionMail"
                   :validacionContraseña="this.validacionContraseña"
-                  :logIn="this.logIn"
                 ></LoginCom>
                 <v-col cols="12" md="6" class="blue rounded-bl-xl">
                   <div style="text-align: center; padding: 180px 0">
@@ -88,8 +87,8 @@ export default {
     ],
     validacionContraseña: [
       (val) =>
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/.test(val) ||
-        " 8 a 24 caracteres Debe incluir Letras maysuculas y minusculas, un numero y un caracter especial",
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{8,24}$/.test(val) ||
+        " 8 a 24 caracteres Debe incluir Letras maysuculas y minusculas, un numero",
     ],
     validacionMail: [
       (val) =>
@@ -106,10 +105,6 @@ export default {
     ],
   }),
   methods: {
-    logIn() {
-      console.log("Hola");
-      this.$refs.form.validate();
-    },
     register() {
       console.log("Hola");
       this.$refs.form.validate();
