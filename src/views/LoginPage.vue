@@ -46,7 +46,6 @@
                   :validacionMail="this.validacionMail"
                   :validacionRepetirContra="this.validacionRepetirContra"
                   :passwordConfirmationRule="this.passwordConfirmationRule"
-                  :register="this.register"
                 ></RegisterCom>
                 <v-col cols="12" md="6"> </v-col>
               </v-row>
@@ -104,12 +103,7 @@ export default {
       (v) => !!v || "Debes aceptar terminos y condiciones para registrarte",
     ],
   }),
-  methods: {
-    register() {
-      console.log("Hola");
-      this.$refs.form.validate();
-    },
-  },
+
   props: {
     source: String,
   },

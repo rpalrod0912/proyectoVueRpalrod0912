@@ -78,6 +78,10 @@
               </v-checkbox>
             </v-col>
           </v-row>
+          <h3 style="color: red" v-if="userFound">EL USUARIO YA EXISTE</h3>
+          <h3 style="color: green" v-if="exito">
+            REGISTRO CON EXITO, INICIA SESION
+          </h3>
           <v-btn
             :disabled="!valid"
             color="blue"
@@ -94,9 +98,12 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
   name: "RegisterCom",
   data: () => ({
+    exito: false,
+    userFound: false,
     valid: true,
     registerNombre: "",
     registerApellidos: "",
@@ -111,8 +118,37 @@ export default {
     validacionContraseña: { Function },
     validacionMail: { Function },
     validacionRepetirContra: { Function },
-    register: { Function },
     passwordConfirmationRule: { Function },
+  },
+  methods: {
+    /*eslint-disable */
+    register() {
+      debugger;
+      console.log("Hola");
+      this.$refs.form.validate();
+      this.postForm();
+    },
+    async postForm() {
+      this.userFound = false;
+      this.exito = false;
+
+      const registerData = {
+        name: this.registerNombre,
+        mail: this.registerMail,
+        password: this.registerPwd,
+      };
+      debugger;
+      console.log("REGISTRANDO");
+      const data = await axios
+        .post("http://localhost:3003/v1/api/users/", registerData)
+        .then((res) => res.data)
+        .catch((error) => console.log(error));
+      if (data === "YAEXISTE") {
+        this.userFound = true;
+      } else {
+        this.exito = true;
+      }
+    },
   },
 };
 </script>
