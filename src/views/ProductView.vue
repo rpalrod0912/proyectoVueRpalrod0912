@@ -1,6 +1,6 @@
 <template>
   <div class="contenedor">
-    <v-card class="elevation-6 mt-10 formCard">
+    <v-card class="elevation-6 mt-10">
       <v-card
         color="#3853D8"
         height="150px"
@@ -16,7 +16,7 @@
         </v-row>
       </v-card>
       <div class="presentacion">
-        <div>
+        <div style="width: 40%">
           <v-card color="#c0bdbd" width="600" height="430" class="d-flex ml-10">
             <v-img :src="productData.imagen"></v-img>
           </v-card>
@@ -24,9 +24,10 @@
             style="
               display: flex;
               flex-direction: column;
-              width: 50rem;
+              width: 50%;
               justify-content: center;
               margin: 4rem;
+              font-size: 1.4rem;
             "
           >
             <h2>Descripción</h2>
@@ -157,12 +158,22 @@ export default {
 </script>
 
 <style>
+@media (max-width: 1300px) {
+  .presentacion {
+  }
+}
+@media (max-width: 1200px) {
+  .presentacion {
+    flex-wrap: wrap;
+  }
+}
 .presentacion {
+  width: auto;
   justify-content: space-evenly;
   margin-top: 1.4rem;
   margin-bottom: 1.4rem;
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: no-wrap;
   margin-left: 6rem;
   margin-right: 6rem;
 }

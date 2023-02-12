@@ -26,9 +26,9 @@
           :key="index"
           class="pa-0"
         >
-          <v-hover v-slot="{ hover }" open-delay="200">
+          <v-hover v-slot="{ isHovering, props }" open-delay="200">
             <v-card
-              :elevation="hover ? 16 : 2"
+              v-bind="props"
               height="300"
               class="d-flex flex-column align-center mb-3"
               text-align="center"
@@ -51,6 +51,10 @@
                   producto.nombre
                 }}</strong>
               </v-card-text>
+              <ProductsHover
+                :isHovering="isHovering"
+                :productData="producto"
+              ></ProductsHover>
               <v-card-text class="mt-n4" style="padding: 0px">
                 <strong
                   v-if="producto.oferta"
@@ -76,6 +80,8 @@
 <script>
 /*eslint-disable*/
 
+import ProductsHover from "@/components/ProductsHover.vue";
+
 export default {
   name: "BusquedasView",
   state: {},
@@ -99,8 +105,7 @@ export default {
       return resultado;
     },
   },
-
-  //Cuando la pagina se crea, realiza el metodo que llamemos en created
+  components: { ProductsHover },
 };
 </script>
 

@@ -13,6 +13,7 @@
 import NavBar from "./components/NavBar.vue";
 import AppFooter from "./components/AppFooter.vue";
 /*eslint-disable*/
+import { inject } from "vue";
 
 export default {
   name: "App",
