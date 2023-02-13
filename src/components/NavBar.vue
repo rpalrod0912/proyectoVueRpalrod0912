@@ -20,7 +20,6 @@
         </router-link>
       </v-hover>
     </div>
-    <h1 v-if="this.authentication">HOLA {{ this.mail }}</h1>
     <v-spacer></v-spacer>
     <div class="busquedaProd">
       <v-text-field
@@ -54,7 +53,7 @@
 
     <v-divider vertical></v-divider>
     <v-btn icon class="mx-1">
-      <v-badge color="#94D0EF" content="2"
+      <v-badge color="black" :content="this.carritoNumero"
         ><v-icon>mdi-cart-outline</v-icon>
       </v-badge>
     </v-btn>
@@ -113,11 +112,13 @@ export default {
     //OBLIGATORIO DE LO CONTRARIO NO PODEMOS TRABAJAR CON VARIABLESDFE VUE CON oAuthStateChanged
     let self = this;
     console.log(auth.currentUser);
-    auth.onAuthStateChanged(function (user) {
+    auth.onAuthStateChanged(async function (user) {
       if (user != null) {
         console.log("ESTAS LOGEADO");
         self.email = user.email;
         self.authentication = true;
+        debugger;
+        self.carritoNumero = await self.contarProd(user.uid);
       } else {
         console.log("NO ESTAS LOGEADO");
         self.authentication = false;
@@ -127,14 +128,32 @@ export default {
   },
 
   data() {
-    return { text: "", searchsArray: [], authentication: null, email: "" };
+    return {
+      text: "",
+      searchsArray: [],
+      authentication: null,
+      email: "",
+      carritoNumero: 0,
+    };
   },
   methods: {
+    async contarProd(id) {
+      let cantidad = 0;
+      const data = await fetch(`http://localhost:3003/v1/api/carts/${id}`).then(
+        (res) => res.json()
+      );
+      for (let i = 0; i <= data.cesta.length - 1; i++) {
+        cantidad += parseInt(data.cesta[i].cantidad);
+      }
+      return cantidad;
+    },
     logOut() {
+      debugger;
       signOut(auth)
         .then(() => {
-          console.log("Desconectado");
           this.authentication = false;
+          debugger;
+          this.$router.go("/");
         })
         .catch((error) => {
           console.log("ALGO OCURRIO");
