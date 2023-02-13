@@ -96,7 +96,6 @@
 /*eslint-disable*/
 
 import LoginPage from "./LoginPage.vue";
-import HomePage from "../components/HomePage.vue";
 
 import AppFooter from "@/components/AppFooter.vue";
 import ProductsView from "../components/ProductsView.vue";
@@ -170,7 +169,7 @@ export default {
     },
   },
 
-  components: { LoginPage, HomePage, AppFooter, ProductsView, NavBar },
+  components: { LoginPage, AppFooter, ProductsView, NavBar },
 };
 </script>
 

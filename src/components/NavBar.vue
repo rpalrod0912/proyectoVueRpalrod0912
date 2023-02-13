@@ -1,7 +1,24 @@
 <template>
   <v-app-bar class="header" app color="#3853D8" dark>
     <div class="titulo">
-      <h4>Rafael Palomino</h4>
+      <v-hover v-slot:default="{ isHovering, props }" open-delay="60">
+        <router-link to="/">
+          <img
+            v-if="isHovering"
+            v-bind="props"
+            style="max-width: 13rem"
+            src="https://i.ibb.co/dJT1MtP/2.png"
+            alt="2"
+          />
+          <img
+            v-else-if="!isHovering"
+            v-bind="props"
+            style="max-width: 13rem"
+            src="https://i.ibb.co/hLsC5XG/whitelogo.png"
+            alt="whitelogo"
+          />
+        </router-link>
+      </v-hover>
     </div>
     <h1 v-if="this.authentication">HOLA {{ this.mail }}</h1>
     <v-spacer></v-spacer>
@@ -62,8 +79,10 @@
             v-if="!this.authentication"
             class="linkRouter"
             to="/login"
-            ><v-list-item-title>Login</v-list-item-title></router-link
-          ><v-btn @click="logOut" v-else>DESCONECTAR</v-btn>
+            ><v-btn variant="flat" color="success">Login</v-btn></router-link
+          ><v-btn variant="flat" color="error" @click="logOut" v-else
+            >DESCONECTAR</v-btn
+          >
         </v-list-item>
         <v-list-item
           ><router-link class="linkRouter" to="/Productos"

@@ -136,7 +136,7 @@ export default {
       debugger;
       console.log("Hola");
       this.$refs.form.validate();
-      //this.postForm();
+
       this.registerFireBase();
     },
     async registerFireBase() {
@@ -153,14 +153,20 @@ export default {
         registerData.password
       )
         .then((userCredential) => {
+          debugger;
           this.exito = true;
           this.userFound = false;
 
           const user = userCredential.user;
-          console.log(user);
-          console.log(data);
+          const userId = userCredential.user.uid;
+          this.postForm({
+            id: userId,
+            name: registerData.name,
+            mail: registerData.mail,
+            password: registerData.password,
+          });
+          console.log(userId);
           console.log("Registrado con exito");
-          router.push("/");
         })
         .catch((error) => {
           debugger;
@@ -174,32 +180,20 @@ export default {
 
             this.userFound = true;
           }
+          router.push("/");
         });
     },
-    async postForm() {
-      this.userFound = false;
-      this.exito = false;
-      const registerData = {
-        name: this.registerNombre,
-        mail: this.registerMail,
-        password: this.registerPwd,
-      };
+    async postForm(objetoUsuario) {
       debugger;
       console.log("REGISTRANDO");
       const data = await axios
-        .post("http://localhost:3003/v1/api/users/", registerData)
+        .post("http://localhost:3003/v1/api/users/", objetoUsuario)
         .then((res) => res.data)
         .catch((error) => console.log(error));
-      if (data === "YAEXISTE") {
-        this.userFound = true;
-      } else {
-        this.exito = true;
-      }
     },
   },
 };
 </script>
-
 <style scoped>
 .v-application .rounded-bl-xl {
   border-bottom-left-radius: 300px !important;
