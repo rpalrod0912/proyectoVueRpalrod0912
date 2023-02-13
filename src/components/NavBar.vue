@@ -110,13 +110,11 @@ import { auth, signOut } from "@/firebaseConfig/firebaseConfig.js";
 export default {
   name: "NavBar",
   created() {
-    debugger;
     //OBLIGATORIO DE LO CONTRARIO NO PODEMOS TRABAJAR CON VARIABLESDFE VUE CON oAuthStateChanged
     let self = this;
     console.log(auth.currentUser);
     auth.onAuthStateChanged(function (user) {
       if (user != null) {
-        debugger;
         console.log("ESTAS LOGEADO");
         self.email = user.email;
         self.authentication = true;

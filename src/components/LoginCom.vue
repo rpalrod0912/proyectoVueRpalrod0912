@@ -34,7 +34,10 @@
               </v-col>
             </v-row>
             <h3 style="color: red" v-if="userNotFound">
-              USUARIO NO ENCONTRADO
+              Usuario no encontrado
+            </h3>
+            <h3 style="color: red" v-if="passwordNotFound">
+              Contraseña incorrecta
             </h3>
             <v-btn
               :disabled="!valid"
@@ -70,6 +73,7 @@ export default {
     emailLogIn: "",
     pwdLogIn: "",
     userNotFound: false,
+    passwordNotFound: false,
   }),
   methods: {
     logIn() {
@@ -81,35 +85,39 @@ export default {
     },
 
     async logInFirebase() {
-      debugger;
-
       const logInData = {
         mail: this.emailLogIn,
         pwd: this.pwdLogIn,
       };
       await signInWithEmailAndPassword(auth, logInData.mail, logInData.pwd)
         .then((userCredential) => {
+          this.userNotFound = false;
+          this.passwordNotFound = false;
           const user = userCredential.user;
-          console.log(user);
-          console.log("Iniciado sesion con exito");
+          this.encontrarUsuario(user.email);
         })
         .catch((error) => {
           debugger;
           const errorCode = error.code;
-          const errorMessage = error.message;
-          console.log("INVALIDO");
+          if (errorCode === "auth/user-not-found") {
+            this.userNotFound = true;
+          }
+          if (errorCode === "auth/wrong-password") {
+            this.passwordNotFound = true;
+          }
         });
+      console.log(this.userNotFound);
     },
-    async encontrarUsuario(mail, contra) {
-      const datosEnviar = mail + "&" + contra;
+    async encontrarUsuario(email) {
+      const mail = email;
       const foundUser = await fetch(
-        `http://localhost:3003/v1/api/users/login/${datosEnviar}`
+        `http://localhost:3003/v1/api/users/login/${mail}`
       ).then((res) => res.json());
       console.log(foundUser);
+
       if (foundUser !== "NOTFOUND") {
         this.$router.push("/");
       }
-      this.userNotFound = true;
     },
   },
 };

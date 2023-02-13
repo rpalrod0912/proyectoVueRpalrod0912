@@ -80,7 +80,7 @@
           </v-row>
           <h3 style="color: red" v-if="userFound">EL USUARIO YA EXISTE</h3>
           <h3 style="color: green" v-if="exito">
-            REGISTRO CON EXITO, INICIA SESION
+            REGISTRO CON EXITO, SESION INICIADA
           </h3>
           <v-btn
             :disabled="!valid"
@@ -133,10 +133,7 @@ export default {
     register() {
       this.userFound = false;
       this.exito = false;
-      debugger;
-      console.log("Hola");
       this.$refs.form.validate();
-
       this.registerFireBase();
     },
     async registerFireBase() {
@@ -165,8 +162,6 @@ export default {
             mail: registerData.mail,
             password: registerData.password,
           });
-          console.log(userId);
-          console.log("Registrado con exito");
         })
         .catch((error) => {
           debugger;
@@ -176,16 +171,14 @@ export default {
 
           if (errorMessage === "Firebase: Error (auth/email-already-in-use).") {
             this.exito = false;
-            console.log("YA EXISTE");
-
             this.userFound = true;
+            return;
           }
-          router.push("/");
+          setTimeout(() => router.push("/"), 2000);
         });
     },
     async postForm(objetoUsuario) {
       debugger;
-      console.log("REGISTRANDO");
       const data = await axios
         .post("http://localhost:3003/v1/api/users/", objetoUsuario)
         .then((res) => res.data)
