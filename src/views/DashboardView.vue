@@ -1,4 +1,5 @@
 <template>
+  <NavBar></NavBar>
   <v-container fluid>
     <v-card
       color="#3853D8"
@@ -99,6 +100,7 @@ import HomePage from "../components/HomePage.vue";
 
 import AppFooter from "@/components/AppFooter.vue";
 import ProductsView from "../components/ProductsView.vue";
+import NavBar from "@/components/NavBar.vue";
 export default {
   name: "DashboardView",
   state: {},
@@ -168,7 +170,7 @@ export default {
     },
   },
 
-  components: { LoginPage, HomePage, AppFooter, ProductsView },
+  components: { LoginPage, HomePage, AppFooter, ProductsView, NavBar },
 };
 </script>
 

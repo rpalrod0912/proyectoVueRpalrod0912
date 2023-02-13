@@ -53,6 +53,12 @@
 </template>
 
 <script>
+/*eslint-disable */
+import {
+  auth,
+  signInWithEmailAndPassword,
+} from "@/firebaseConfig/firebaseConfig.js";
+import { getAuth } from "@firebase/auth";
 export default {
   name: "LoginCom",
   props: {
@@ -67,8 +73,32 @@ export default {
   }),
   methods: {
     logIn() {
+      debugger;
       this.$refs.form.validate();
-      this.encontrarUsuario(this.emailLogIn, this.pwdLogIn);
+      this.logInFirebase();
+      //this.encontrarUsuario(this.emailLogIn, this.pwdLogIn);
+      //this.logInFirebase();
+    },
+
+    async logInFirebase() {
+      debugger;
+
+      const logInData = {
+        mail: this.emailLogIn,
+        pwd: this.pwdLogIn,
+      };
+      await signInWithEmailAndPassword(auth, logInData.mail, logInData.pwd)
+        .then((userCredential) => {
+          const user = userCredential.user;
+          console.log(user);
+          console.log("Iniciado sesion con exito");
+        })
+        .catch((error) => {
+          debugger;
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          console.log("INVALIDO");
+        });
     },
     async encontrarUsuario(mail, contra) {
       const datosEnviar = mail + "&" + contra;

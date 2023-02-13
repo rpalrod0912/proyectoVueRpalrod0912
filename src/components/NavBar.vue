@@ -3,7 +3,7 @@
     <div class="titulo">
       <h4>Rafael Palomino</h4>
     </div>
-
+    <h1 v-if="this.authentication">HOLA {{ this.mail }}</h1>
     <v-spacer></v-spacer>
     <div class="busquedaProd">
       <v-text-field
@@ -20,9 +20,21 @@
     </v-btn>
     <SearchBar />
     <v-divider vertical></v-divider>
-    <v-btn icon class="mx-1">
-      <v-icon>mdi-account-outline</v-icon>
-    </v-btn>
+    <v-menu>
+      <template v-slot:activator="{ props }">
+        <v-btn icon="mdi-account-outline" v-bind="props"></v-btn>
+      </template>
+
+      <v-list>
+        <v-list-item
+          ><v-list-item-title v-if="!this.authentication"
+            >No has iniciado sesion</v-list-item-title
+          >
+          <v-list-item-title v-else>Hola {{ this.email }}</v-list-item-title>
+        </v-list-item>
+      </v-list>
+    </v-menu>
+
     <v-divider vertical></v-divider>
     <v-btn icon class="mx-1">
       <v-badge color="#94D0EF" content="2"
@@ -46,10 +58,13 @@
           ></v-list-item
         >
         <v-list-item
-          ><router-link class="linkRouter" to="/login"
+          ><router-link
+            v-if="!this.authentication"
+            class="linkRouter"
+            to="/login"
             ><v-list-item-title>Login</v-list-item-title></router-link
-          ></v-list-item
-        >
+          ><v-btn @click="logOut" v-else>DESCONECTAR</v-btn>
+        </v-list-item>
         <v-list-item
           ><router-link class="linkRouter" to="/Productos"
             ><v-list-item-title>Productos</v-list-item-title></router-link
@@ -71,13 +86,43 @@
 </template>
 
 <script>
+import { auth, signOut } from "@/firebaseConfig/firebaseConfig.js";
 /*eslint-disable */
 export default {
   name: "NavBar",
+  created() {
+    debugger;
+    //OBLIGATORIO DE LO CONTRARIO NO PODEMOS TRABAJAR CON VARIABLESDFE VUE CON oAuthStateChanged
+    let self = this;
+    console.log(auth.currentUser);
+    auth.onAuthStateChanged(function (user) {
+      if (user != null) {
+        debugger;
+        console.log("ESTAS LOGEADO");
+        self.email = user.email;
+        self.authentication = true;
+      } else {
+        console.log("NO ESTAS LOGEADO");
+        self.authentication = false;
+      }
+    });
+    console.log(this.text);
+  },
+
   data() {
-    return { text: "", searchsArray: [] };
+    return { text: "", searchsArray: [], authentication: null, email: "" };
   },
   methods: {
+    logOut() {
+      signOut(auth)
+        .then(() => {
+          console.log("Desconectado");
+          this.authentication = false;
+        })
+        .catch((error) => {
+          console.log("ALGO OCURRIO");
+        });
+    },
     buscarElementos() {
       this.$router.push({
         name: "BusquedasView",
@@ -105,11 +150,16 @@ export default {
       this.searchsArray = encontrados;
     },
   },
+  computed: {
+    authentication: false,
+  },
   watch: {
     text(newval, oldval) {
       debugger;
       this.fetchAllProductsByValue(newval);
     },
+    authentication(newval, oldval) {},
+    inmediate: true,
   },
 };
 </script>

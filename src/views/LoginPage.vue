@@ -1,4 +1,5 @@
 <template>
+  <NavBar></NavBar>
   <v-container>
     <v-row align="center" justify="center">
       <v-col cols="12" sm="10">
@@ -59,6 +60,7 @@
 
 <script>
 import LoginCom from "@/components/LoginCom.vue";
+import NavBar from "@/components/NavBar.vue";
 import RegisterCom from "@/components/RegisterCom.vue";
 
 export default {
@@ -119,7 +121,7 @@ export default {
         "Las contraseñas deben coincidir";
     },
   },
-  components: { LoginCom, RegisterCom },
+  components: { LoginCom, RegisterCom, NavBar },
 };
 </script>
 <style scoped>

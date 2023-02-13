@@ -1,4 +1,5 @@
 <template>
+  <NavBar></NavBar>
   <v-container fluid>
     <v-card
       color="#3853D8"
@@ -80,6 +81,7 @@
 <script>
 /*eslint-disable*/
 
+import NavBar from "@/components/NavBar.vue";
 import ProductsHover from "@/components/ProductsHover.vue";
 
 export default {
@@ -105,7 +107,7 @@ export default {
       return resultado;
     },
   },
-  components: { ProductsHover },
+  components: { ProductsHover, NavBar, NavBar },
 };
 </script>
 

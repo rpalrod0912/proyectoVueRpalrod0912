@@ -1,4 +1,6 @@
 <template>
+  <NavBar></NavBar>
+
   <div class="contenedor">
     <v-card class="elevation-6 mt-10 formCard">
       <h1 class="text-center">{{ userData.userName }}</h1>
@@ -94,6 +96,8 @@
 </template>
 
 <script>
+import NavBar from "@/components/NavBar.vue";
+
 /*eslint-disable */
 export default {
   data() {
@@ -154,7 +158,6 @@ export default {
       this.userData.userName.length <= 15 ? true : false;
     },
   },
-
   watch: {
     userData: {
       handler(newVal, oldVal) {
@@ -163,6 +166,7 @@ export default {
       deep: true,
     },
   },
+  components: { NavBar },
 };
 </script>
 

@@ -98,7 +98,15 @@
 </template>
 
 <script>
+/*eslint-disable */
+import {
+  app,
+  auth,
+  createUserWithEmailAndPassword,
+} from "@/firebaseConfig/firebaseConfig.js";
+import router from "@/router";
 import axios from "axios";
+
 export default {
   name: "RegisterCom",
   data: () => ({
@@ -123,15 +131,54 @@ export default {
   methods: {
     /*eslint-disable */
     register() {
+      this.userFound = false;
+      this.exito = false;
       debugger;
       console.log("Hola");
       this.$refs.form.validate();
-      this.postForm();
+      //this.postForm();
+      this.registerFireBase();
+    },
+    async registerFireBase() {
+      debugger;
+
+      const registerData = {
+        name: this.registerNombre,
+        mail: this.registerMail,
+        password: this.registerPwd,
+      };
+      await createUserWithEmailAndPassword(
+        auth,
+        registerData.mail,
+        registerData.password
+      )
+        .then((userCredential) => {
+          this.exito = true;
+          this.userFound = false;
+
+          const user = userCredential.user;
+          console.log(user);
+          console.log(data);
+          console.log("Registrado con exito");
+          router.push("/");
+        })
+        .catch((error) => {
+          debugger;
+
+          const errorCode = error.code;
+          const errorMessage = error.message;
+
+          if (errorMessage === "Firebase: Error (auth/email-already-in-use).") {
+            this.exito = false;
+            console.log("YA EXISTE");
+
+            this.userFound = true;
+          }
+        });
     },
     async postForm() {
       this.userFound = false;
       this.exito = false;
-
       const registerData = {
         name: this.registerNombre,
         mail: this.registerMail,

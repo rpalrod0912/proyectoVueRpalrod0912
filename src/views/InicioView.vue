@@ -1,4 +1,5 @@
 <template>
+  <NavBar></NavBar>
   <v-card elevation="20" class="mx-auto" rounded width="80%">
     <v-carousel
       height="400"
@@ -65,6 +66,8 @@
 </template>
 
 <script>
+import NavBar from "@/components/NavBar.vue";
+
 export default {
   /*eslint-disable*/
   //Ejemplo usando https://fakestoreapi.com/
@@ -93,7 +96,6 @@ export default {
         },
         {
           img: require("@/assets/img/nuevo.png"),
-
           title: "Productos Nuevo",
           text: "Tenemos stock nuevo cada semana",
         },
@@ -116,15 +118,14 @@ export default {
         this.carrouselElem.push(data[numberId]);
         numberId += 1;
       }
-
       console.log(data);
       console.log(this.carrouselElem);
       console.log(this.carga);
       console.log(this.carrouselElem[0].imagen);
-
       this.carga = true;
     },
   },
+  components: { NavBar },
 };
 </script>
 <style>
