@@ -75,14 +75,34 @@
             </p>
           </div>
 
-          <v-btn
-            rounded="pill"
-            @click="this.añadirCarrito"
-            :disabled="!boton"
-            style="margin-top: 2rem"
-            color="#69F801"
-            >AÑADIR AL CARRITO</v-btn
-          >
+          <v-dialog transition="dialog-top-transition" width="auto">
+            <template v-slot:activator="{ props }">
+              <v-btn
+                rounded="pill"
+                @click="this.añadirCarrito"
+                :disabled="!boton"
+                style="margin-top: 2rem"
+                color="#69F801"
+                v-bind="props"
+                >AÑADIR AL CARRITO</v-btn
+              >
+            </template>
+            <template v-slot:default="{ isActive }">
+              <v-card>
+                <v-card-text class="centradoAviso">
+                  <v-icon class="text-h2 pa-12" color="blue"
+                    >mdi-checkbox-marked-circle</v-icon
+                  >
+                  <div class="text-h2 pa-12">Producto añadido al carrito</div>
+                </v-card-text>
+                <v-card-actions class="justify-end">
+                  <v-btn variant="text" @click="isActive.value = false"
+                    >Close</v-btn
+                  >
+                </v-card-actions>
+              </v-card>
+            </template>
+          </v-dialog>
         </div>
       </div>
     </v-card>
@@ -213,5 +233,12 @@ export default {
 .formCard {
   width: 80%;
   margin-bottom: 1rem;
+}
+
+.centradoAviso {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
 }
 </style>

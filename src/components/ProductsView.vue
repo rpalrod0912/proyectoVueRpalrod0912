@@ -406,7 +406,7 @@ export default {
   },
   methods: {
     aplicarDescuento(precio, porcentaje) {
-      const resultado = precio - (precio * porcentaje) / 100;
+      const resultado = Math.round(precio - (precio * porcentaje) / 100);
       return resultado;
     },
     filterSalesArr() {
