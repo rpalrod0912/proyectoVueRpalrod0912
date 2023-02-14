@@ -52,11 +52,30 @@
     </v-menu>
 
     <v-divider vertical></v-divider>
-    <v-btn icon class="mx-1">
-      <v-badge color="black" :content="this.carritoNumero"
-        ><v-icon>mdi-cart-outline</v-icon>
-      </v-badge>
-    </v-btn>
+
+    <v-menu>
+      <template v-slot:activator="{ props }">
+        <v-btn v-bind="props">
+          <v-badge color="black" :content="this.carritoNumero"
+            ><v-icon>mdi-cart-outline</v-icon>
+          </v-badge>
+        </v-btn>
+      </template>
+
+      <v-list>
+        <v-list-item v-if="!this.authentication"
+          ><v-list-item-title>No has iniciado sesion</v-list-item-title>
+        </v-list-item>
+        <v-list-item v-else
+          ><v-list-item-title
+            >Tienes {{ this.carritoNumero }} productos en el
+            carrito</v-list-item-title
+          ><v-btn variant="flat" color="success" @click="this.irCarrito"
+            >Ver Carrito</v-btn
+          >
+        </v-list-item>
+      </v-list>
+    </v-menu>
     <v-menu>
       <template v-slot:activator="{ props }">
         <v-btn icon="mdi-menu" v-bind="props"></v-btn>
@@ -109,22 +128,23 @@ import { auth, signOut } from "@/firebaseConfig/firebaseConfig.js";
 export default {
   name: "NavBar",
   created() {
+    debugger;
     //OBLIGATORIO DE LO CONTRARIO NO PODEMOS TRABAJAR CON VARIABLESDFE VUE CON oAuthStateChanged
     let self = this;
-    console.log(auth.currentUser);
     auth.onAuthStateChanged(async function (user) {
       if (user != null) {
-        console.log("ESTAS LOGEADO");
+        debugger;
         self.email = user.email;
         self.authentication = true;
-        debugger;
+        self.id = user.uid;
         self.carritoNumero = await self.contarProd(user.uid);
+        self.$store.commit("setCurrentAuth", true);
+        self.$store.commit("setCurrentUser", user.uid);
+        debugger;
       } else {
-        console.log("NO ESTAS LOGEADO");
         self.authentication = false;
       }
     });
-    console.log(this.text);
   },
 
   data() {
@@ -134,9 +154,16 @@ export default {
       authentication: null,
       email: "",
       carritoNumero: 0,
+      id: null,
     };
   },
   methods: {
+    irCarrito() {
+      this.$router.push({
+        name: "CarritoView",
+        query: { id: JSON.stringify(this.id) },
+      });
+    },
     async contarProd(id) {
       let cantidad = 0;
       const data = await fetch(`http://localhost:3003/v1/api/carts/${id}`).then(
@@ -148,11 +175,11 @@ export default {
       return cantidad;
     },
     logOut() {
-      debugger;
       signOut(auth)
         .then(() => {
           this.authentication = false;
-          debugger;
+          this.$store.commit("setCurrentAuth", this.authentication);
+
           this.$router.go("/");
         })
         .catch((error) => {
@@ -194,7 +221,7 @@ export default {
       debugger;
       this.fetchAllProductsByValue(newval);
     },
-    authentication(newval, oldval) {},
+
     inmediate: true,
   },
 };

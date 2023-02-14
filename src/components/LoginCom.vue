@@ -33,11 +33,8 @@
                 </v-checkbox>
               </v-col>
             </v-row>
-            <h3 style="color: red" v-if="userNotFound">
-              Usuario no encontrado
-            </h3>
-            <h3 style="color: red" v-if="passwordNotFound">
-              Contraseña incorrecta
+            <h3 style="color: red" v-if="userNotFound || passwordNotFound">
+              Usuario o Contraseña Incorrectas
             </h3>
             <v-btn
               :disabled="!valid"

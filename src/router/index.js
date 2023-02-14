@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
+import store from "../store";
 
 const routes = [
   {
@@ -32,6 +33,9 @@ const routes = [
     path: "/Perfil",
     name: "ProfileView",
     component: () => import("../views/ProfileView.vue"),
+    meta: {
+      requiresAuth: true,
+    },
   },
   {
     path: "/busquedas",
@@ -51,11 +55,26 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/ProductView.vue"),
   },
+  {
+    path: "/carrito",
+    name: "CarritoView",
+    component: () =>
+      import(/* webpackChunkName: "about" */ "../views/CarritoView.vue"),
+    meta: {
+      requiresAuth: true,
+    },
+  },
 ];
-
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
+});
+router.beforeEach((to, from, next) => {
+  const currentAuth = store.state.currentAuth;
+  const requiresAuth = to.matched.some((record) => record.meta.requiresAuth);
+  if (requiresAuth && !currentAuth) {
+    next("/login");
+  } else next();
 });
 
 export default router;

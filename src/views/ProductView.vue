@@ -1,4 +1,5 @@
 <template>
+  <NavBar></NavBar>
   <div class="contenedor">
     <v-card class="elevation-6 mt-10">
       <v-card
@@ -76,10 +77,11 @@
 
           <v-btn
             rounded="pill"
+            @click="this.añadirCarrito"
             :disabled="!boton"
             style="margin-top: 2rem"
             color="#69F801"
-            >AÑADIR AL carrito</v-btn
+            >AÑADIR AL CARRITO</v-btn
           >
         </div>
       </div>
@@ -88,6 +90,9 @@
 </template>
 
 <script>
+import NavBar from "@/components/NavBar.vue";
+import axios from "axios";
+
 /*eslint-disable */
 export default {
   name: "ProductView",
@@ -128,6 +133,22 @@ export default {
     };
   },
   methods: {
+    async añadirCarrito() {
+      debugger;
+      const id = this.$store.state.currentUser;
+
+      const datos = {
+        userId: id,
+        idProduct: this.productData.id,
+      };
+      console.log(datos);
+      const data = await axios
+        .post(`http://localhost:3003/v1/api/carts/`, datos)
+        .then((res) => res.data)
+        .catch((error) => console.log(error));
+      console.log(data);
+      return data;
+    },
     activarBoton() {
       if (this.tallaElegida !== false && this.colorElegido !== false) {
         this.boton = true;
@@ -154,6 +175,7 @@ export default {
       return encontrarEstilo.estilo;
     },
   },
+  components: { NavBar },
 };
 </script>
 
