@@ -96,12 +96,7 @@
                   <div class="text-h2 pa-12">Producto añadido al carrito</div>
                 </v-card-text>
                 <v-card-actions class="justify-end">
-                  <v-btn
-                    variant="text"
-                    @click="
-                      isActive.value = false;
-                      this.reload();
-                    "
+                  <v-btn variant="text" @click="isActive.value = false"
                     >Close</v-btn
                   >
                 </v-card-actions>
@@ -157,6 +152,7 @@ export default {
         },
       ],
       reload: recarga,
+      añadido: false,
     };
   },
   methods: {
@@ -177,6 +173,7 @@ export default {
       debugger;
       this.$store.commit("setCurrentCartLength", await this.contarProd(id));
       if (data !== null) {
+        this.añadido = true;
         return true;
       }
       return false;
@@ -221,6 +218,15 @@ export default {
     },
   },
   components: { NavBar },
+  watch: {
+    añadido(newval, oldval) {
+      debugger;
+
+      if (newval === true) {
+        this.reload();
+      }
+    },
+  },
 };
 </script>
 
