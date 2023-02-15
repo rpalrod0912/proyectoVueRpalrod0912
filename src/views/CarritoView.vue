@@ -22,16 +22,6 @@
               this.products[index].precio * parseInt(product.cantidad)
             }}
           </h2>
-          <!--
-          <v-list-tile-content>
-            <v-list-tile-title v-html="product.title"></v-list-tile-title>
-            <v-list-tile-sub-title
-              v-html="product.sub_title"
-            ></v-list-tile-sub-title>
-          </v-list-tile-content>
-
-          <v-list-tile> {{ product.price }}$ </v-list-tile>
--->
           <v-list-tile-action>
             <v-text-field
               :label="`Cantidad:${product.cantidad}`"
@@ -79,7 +69,9 @@
     </v-list>
 
     <v-container>
-      <v-btn color="success" larger style="float: right">Go to payment</v-btn>
+      <v-btn color="success" larger style="float: right"
+        >Proceder Al Pago</v-btn
+      >
     </v-container>
   </v-container>
   <h2 v-else>Cargando...</h2>

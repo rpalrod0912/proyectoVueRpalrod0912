@@ -88,7 +88,20 @@
               >
             </template>
             <template v-slot:default="{ isActive }">
-              <v-card>
+              <v-card v-if="$store.state.currentUser === null">
+                <v-card-text class="centradoAviso">
+                  <v-icon class="text-h2 pa-12" color="red">mdi-cancel</v-icon>
+                  <div class="text-h2 pa-12">
+                    Inicia sesión para añadir al carrito
+                  </div>
+                </v-card-text>
+                <v-card-actions class="justify-end">
+                  <v-btn variant="text" @click="isActive.value = false"
+                    >Close</v-btn
+                  >
+                </v-card-actions>
+              </v-card>
+              <v-card v-else>
                 <v-card-text class="centradoAviso">
                   <v-icon class="text-h2 pa-12" color="blue"
                     >mdi-checkbox-marked-circle</v-icon
@@ -153,11 +166,15 @@ export default {
       ],
       reload: recarga,
       añadido: false,
+      mensaje: null,
     };
   },
   methods: {
     async añadirCarrito() {
       debugger;
+      if (this.$store.state.currentUser === null) {
+        return;
+      }
       const id = this.$store.state.currentUser;
       debugger;
       const datos = {

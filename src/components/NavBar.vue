@@ -185,7 +185,7 @@ export default {
         .then(() => {
           this.authentication = false;
           this.$store.commit("setCurrentAuth", this.authentication);
-
+          this.$store.commit("setCurrentUser", null);
           this.$router.go("/");
         })
         .catch((error) => {

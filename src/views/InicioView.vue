@@ -96,12 +96,12 @@ export default {
         },
         {
           img: require("@/assets/img/nuevo.png"),
-          title: "Productos Nuevo",
+          title: "Productos Nuevos",
           text: "Tenemos stock nuevo cada semana",
         },
         {
           img: require("@/assets/img/oferta.png"),
-          title: "Ofertas constante",
+          title: "Ofertas constantes",
           text: "Todos los días disponemos de ofertas nuevas para satisfacer a nuestros usuarios",
         },
       ],
