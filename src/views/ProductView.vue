@@ -96,7 +96,12 @@
                   <div class="text-h2 pa-12">Producto añadido al carrito</div>
                 </v-card-text>
                 <v-card-actions class="justify-end">
-                  <v-btn variant="text" @click="isActive.value = false"
+                  <v-btn
+                    variant="text"
+                    @click="
+                      isActive.value = false;
+                      this.reload();
+                    "
                     >Close</v-btn
                   >
                 </v-card-actions>
@@ -112,6 +117,7 @@
 <script>
 import NavBar from "@/components/NavBar.vue";
 import axios from "axios";
+import { recarga } from "@/helpers/basicFunctions.js";
 
 /*eslint-disable */
 export default {
@@ -150,13 +156,14 @@ export default {
           estilo: "green",
         },
       ],
+      reload: recarga,
     };
   },
   methods: {
     async añadirCarrito() {
       debugger;
       const id = this.$store.state.currentUser;
-
+      debugger;
       const datos = {
         userId: id,
         idProduct: this.productData.id,
@@ -166,8 +173,27 @@ export default {
         .post(`http://localhost:3003/v1/api/carts/`, datos)
         .then((res) => res.data)
         .catch((error) => console.log(error));
-      console.log(data);
-      return data;
+
+      debugger;
+      this.$store.commit("setCurrentCartLength", await this.contarProd(id));
+      if (data !== null) {
+        return true;
+      }
+      return false;
+    },
+    async contarProd(id) {
+      let cantidad = 0;
+      const data = await fetch(`http://localhost:3003/v1/api/carts/${id}`).then(
+        (res) => res.json()
+      );
+      for (let i = 0; i <= data.cesta.length - 1; i++) {
+        cantidad += parseInt(data.cesta[i].cantidad);
+      }
+      setTimeout(() => {
+        debugger;
+        this.$route.go;
+      }, 2000);
+      return cantidad;
     },
     activarBoton() {
       if (this.tallaElegida !== false && this.colorElegido !== false) {
@@ -189,7 +215,6 @@ export default {
       }
     },
     encontrarColor(valor) {
-      debugger;
       console.log(this.productData);
       const encontrarEstilo = this.colores.find((val) => val.color === valor);
       return encontrarEstilo.estilo;

@@ -2,21 +2,26 @@
   <NavBar></NavBar>
   <v-container v-if="loading">
     <h2 class="display-2 mb-4">Cesta</h2>
-    <v-list two-line>
-      <div
-        v-for="(product, index) in this.yourCart.cesta"
-        v-bind:key="product[index]"
+    <v-list class="ma-0 pa-0 estilo">
+      <v-col
+        cols="12"
+        sm="4"
+        v-for="(product, index) in yourCart.cesta"
+        class="pa-0"
+        :key="index"
       >
-        <v-list-tile avatar>
-          <v-list-tile-avatar>
-            <h2>{{ this.products[index].nombre }}</h2>
-            <img height="300" :src="this.products[index].imagen" />
-            <h2>
-              Precio:{{
-                this.products[index].precio * parseInt(product.cantidad)
-              }}
-            </h2>
-          </v-list-tile-avatar>
+        <v-card
+          height="530"
+          max-width="600"
+          class="d-flex flex-column align-center mb-3"
+        >
+          <h2>{{ this.products[index].nombre }}</h2>
+          <img height="270" :src="this.products[index].imagen" />
+          <h2>
+            Precio:{{
+              this.products[index].precio * parseInt(product.cantidad)
+            }}
+          </h2>
           <!--
           <v-list-tile-content>
             <v-list-tile-title v-html="product.title"></v-list-tile-title>
@@ -33,17 +38,44 @@
               :value="product.cantidad"
             ></v-text-field>
           </v-list-tile-action>
+
           <v-list-tile> Cantidad:{{ product.cantidad }} </v-list-tile>
-
-          <v-list-tile> {{ product.price * product.qty }}$ </v-list-tile>
-
-          <v-list-tile-action>
-            <v-btn icon ripple>
-              <v-icon color="red lighten-1">delete</v-icon>
-            </v-btn>
-          </v-list-tile-action>
-        </v-list-tile>
-      </div>
+          <v-dialog transition="dialog-top-transition" width="auto">
+            <template v-slot:activator="{ props }">
+              <v-btn
+                icon="mdi-minus"
+                color="red"
+                @click="
+                  eliminarCarrito(
+                    this.$store.state.currentUser,
+                    this.products[index].id
+                  );
+                  this.reload();
+                "
+                style="margin-top: 2rem"
+                v-bind="props"
+              ></v-btn>
+            </template>
+            <template v-slot:default="{ isActive }">
+              <v-card>
+                <v-card-text class="centradoAviso">
+                  <v-icon class="text-h2 pa-12" color="red"
+                    >mdi-delete-circle</v-icon
+                  >
+                  <div class="text-h2 pa-12">
+                    Producto Eliminado del carrito
+                  </div>
+                </v-card-text>
+                <v-card-actions class="justify-end">
+                  <v-btn variant="text" @click="isActive.value = false"
+                    >Close</v-btn
+                  >
+                </v-card-actions>
+              </v-card>
+            </template>
+          </v-dialog>
+        </v-card>
+      </v-col>
     </v-list>
 
     <v-container>
@@ -55,6 +87,8 @@
 
 <script>
 import NavBar from "@/components/NavBar.vue";
+import axios from "axios";
+import { recarga } from "@/helpers/basicFunctions.js";
 /*eslint-disable */
 export default {
   name: "CarritoView",
@@ -71,8 +105,40 @@ export default {
     loading: false,
     cartId: null,
     yourCart: null,
+    reload: recarga,
   }),
   methods: {
+    async contarProd(id) {
+      let cantidad = 0;
+      const data = await fetch(`http://localhost:3003/v1/api/carts/${id}`).then(
+        (res) => res.json()
+      );
+      for (let i = 0; i <= data.cesta.length - 1; i++) {
+        cantidad += parseInt(data.cesta[i].cantidad);
+      }
+
+      return cantidad;
+    },
+    async eliminarCarrito(userId, idProduct) {
+      debugger;
+
+      const datos = {
+        userId,
+        idProduct,
+      };
+      console.log(datos);
+      const data = await axios
+        .patch(`http://localhost:3003/v1/api/carts/`, datos)
+        .then((res) => res.data)
+        .catch((error) => console.log(error));
+      console.log(data);
+      debugger;
+      this.$store.commit(
+        "setCurrentCartLength",
+        await this.contarProd(datos.userId)
+      );
+      this.reload();
+    },
     async cargarProductos(cesta) {
       let cont = 0;
       debugger;
@@ -101,4 +167,16 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.centradoAviso {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+.estilo {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+</style>

@@ -137,8 +137,13 @@ export default {
         self.email = user.email;
         self.authentication = true;
         self.id = user.uid;
-        self.carritoNumero = await self.contarProd(user.uid);
+        self.carritoNumero = self.$store.state.currentCartLength;
+        //self.carritoNumero = await self.contarProd(user.uid);
         self.$store.commit("setCurrentAuth", true);
+        self.$store.commit(
+          "setCurrentCartLength",
+          await self.contarProd(user.uid)
+        );
         self.$store.commit("setCurrentUser", user.uid);
         debugger;
       } else {
@@ -153,7 +158,7 @@ export default {
       searchsArray: [],
       authentication: null,
       email: "",
-      carritoNumero: 0,
+      carritoNumero: this.$store.state.currentCartLength,
       id: null,
     };
   },
@@ -165,6 +170,7 @@ export default {
       });
     },
     async contarProd(id) {
+      debugger;
       let cantidad = 0;
       const data = await fetch(`http://localhost:3003/v1/api/carts/${id}`).then(
         (res) => res.json()
@@ -220,6 +226,13 @@ export default {
     text(newval, oldval) {
       debugger;
       this.fetchAllProductsByValue(newval);
+    },
+    "$store.state.currentCartLength": {
+      handler() {
+        debugger;
+
+        this.carritoNumero = this.$store.state.currentCartLength;
+      },
     },
 
     inmediate: true,
