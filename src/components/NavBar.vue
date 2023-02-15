@@ -55,7 +55,10 @@
 
     <v-menu>
       <template v-slot:activator="{ props }">
-        <v-btn v-bind="props">
+        <v-btn v-if="$store.state.currentCartLength === null" v-bind="props">
+          <v-icon>mdi-cart-outline</v-icon>
+        </v-btn>
+        <v-btn v-else v-bind="props">
           <v-badge color="black" :content="this.carritoNumero"
             ><v-icon>mdi-cart-outline</v-icon>
           </v-badge>
@@ -186,6 +189,7 @@ export default {
           this.authentication = false;
           this.$store.commit("setCurrentAuth", this.authentication);
           this.$store.commit("setCurrentUser", null);
+          this.$store.commit("setCurrentCartLength", null);
           this.$router.go("/");
         })
         .catch((error) => {
