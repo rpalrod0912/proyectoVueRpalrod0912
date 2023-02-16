@@ -1,7 +1,18 @@
 <template>
   <NavBar></NavBar>
   <v-container v-if="loading">
-    <h2 class="display-2 mb-4">Cesta</h2>
+    <v-card
+      color="#3853D8"
+      height="150px"
+      tle
+      flat
+      class="d-flex align-center justify-center"
+      dark
+    >
+      <v-row>
+        <v-col cols="12" sm="12"> <h2 class="text-center">Cesta</h2> </v-col>
+      </v-row>
+    </v-card>
     <v-list class="ma-0 pa-0 estilo">
       <v-col
         cols="12"
@@ -22,12 +33,6 @@
               this.products[index].precio * parseInt(product.cantidad)
             }}
           </h2>
-          <v-list-tile-action>
-            <v-text-field
-              :label="`Cantidad:${product.cantidad}`"
-              :value="product.cantidad"
-            ></v-text-field>
-          </v-list-tile-action>
 
           <v-list-tile> Cantidad:{{ product.cantidad }} </v-list-tile>
           <v-dialog transition="dialog-top-transition" width="auto">
@@ -69,18 +74,17 @@
     </v-list>
 
     <v-container>
-      <v-btn color="success" larger style="float: right"
+      <v-btn color="success" height="70" style="display: flex; margin: 0 auto"
         >Proceder Al Pago</v-btn
       >
     </v-container>
   </v-container>
-  <h2 v-else>Cargando...</h2>
 </template>
 
 <script>
 import NavBar from "@/components/NavBar.vue";
 import axios from "axios";
-import { recarga } from "@/helpers/basicFunctions.js";
+import { API_URL, recarga } from "@/helpers/basicFunctions.js";
 /*eslint-disable */
 export default {
   name: "CarritoView",
@@ -102,8 +106,8 @@ export default {
   methods: {
     async contarProd(id) {
       let cantidad = 0;
-      const data = await fetch(`http://localhost:3003/v1/api/carts/${id}`).then(
-        (res) => res.json()
+      const data = await fetch(`${API_URL}carts/${id}`).then((res) =>
+        res.json()
       );
       for (let i = 0; i <= data.cesta.length - 1; i++) {
         cantidad += parseInt(data.cesta[i].cantidad);
@@ -120,7 +124,7 @@ export default {
       };
       console.log(datos);
       const data = await axios
-        .patch(`http://localhost:3003/v1/api/carts/`, datos)
+        .patch(`${API_URL}carts/`, datos)
         .then((res) => res.data)
         .catch((error) => console.log(error));
       console.log(data);
@@ -137,7 +141,7 @@ export default {
       console.log(cesta);
       while (cont < cesta.length) {
         const data = await fetch(
-          `http://localhost:3003/v1/api/productos/${cesta[cont].idProducto}`
+          `${API_URL}productos/${cesta[cont].idProducto}`
         ).then((res) => res.json());
         this.products.push(data);
         cont += 1;
@@ -146,8 +150,8 @@ export default {
     },
     async cargarCarrito(id) {
       debugger;
-      const data = await fetch(`http://localhost:3003/v1/api/carts/${id}`).then(
-        (res) => res.json()
+      const data = await fetch(`${API_URL}carts/${id}`).then((res) =>
+        res.json()
       );
       this.yourCart = data;
     },

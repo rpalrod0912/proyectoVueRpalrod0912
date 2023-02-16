@@ -26,12 +26,6 @@
     <v-row align="center" justify="center">
       <v-col cols="10">
         <v-row align="center" justify="space-around">
-          <!-- <v-col cols="12" class="text-center">
-              <h1 class="font-weight-light display-2">Title</h1>
-              <h1 class="font-weight-light">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              </h1>
-            </v-col> -->
           <v-col
             cols="12"
             sm="4"
@@ -67,12 +61,14 @@
 
 <script>
 import NavBar from "@/components/NavBar.vue";
+import { API_URL } from "@/helpers/basicFunctions";
 
 export default {
   /*eslint-disable*/
   //Ejemplo usando https://fakestoreapi.com/
   name: "InicioView",
   created() {
+    debugger;
     this.getHomeProducts();
   },
   data() {
@@ -111,9 +107,10 @@ export default {
     async getHomeProducts() {
       let numberId = 0;
       debugger;
-      const data = await fetch(`http://localhost:3003/v1/api/productos/`).then(
-        (res) => res.json()
-      );
+      const data = await fetch(`${API_URL}productos/`, {
+        method: "GET",
+        mode: "cors",
+      }).then((res) => res.json());
       while (this.carrouselElem.length < 5) {
         this.carrouselElem.push(data[numberId]);
         numberId += 1;

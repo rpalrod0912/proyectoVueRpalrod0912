@@ -58,7 +58,8 @@ import {
   auth,
   signInWithEmailAndPassword,
 } from "@/firebaseConfig/firebaseConfig.js";
-import { getAuth } from "@firebase/auth";
+import { API_URL } from "@/helpers/basicFunctions";
+
 export default {
   name: "LoginCom",
   props: {
@@ -107,9 +108,9 @@ export default {
     },
     async encontrarUsuario(email) {
       const mail = email;
-      const foundUser = await fetch(
-        `http://localhost:3003/v1/api/users/login/${mail}`
-      ).then((res) => res.json());
+      const foundUser = await fetch(`${API_URL}users/login/${mail}`).then(
+        (res) => res.json()
+      );
       console.log(foundUser);
 
       if (foundUser !== "NOTFOUND") {

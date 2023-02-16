@@ -6,4 +6,13 @@ function recarga() {
   }, 880);
 }
 
-module.exports = { recarga };
+const API_URL = "https://rpalrodcommerceapi.onrender.com/v1/api/";
+
+function toHome(action) {
+  debugger;
+  setTimeout(function () {
+    action;
+  }, 880);
+}
+
+module.exports = { recarga, toHome, API_URL };

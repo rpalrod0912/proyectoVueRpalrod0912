@@ -127,16 +127,15 @@
 
 <script>
 import { auth, signOut } from "@/firebaseConfig/firebaseConfig.js";
+import { API_URL } from "@/helpers/basicFunctions";
 /*eslint-disable */
 export default {
   name: "NavBar",
   created() {
-    debugger;
     //OBLIGATORIO DE LO CONTRARIO NO PODEMOS TRABAJAR CON VARIABLESDFE VUE CON oAuthStateChanged
     let self = this;
     auth.onAuthStateChanged(async function (user) {
       if (user != null) {
-        debugger;
         self.email = user.email;
         self.authentication = true;
         self.id = user.uid;
@@ -148,7 +147,6 @@ export default {
           await self.contarProd(user.uid)
         );
         self.$store.commit("setCurrentUser", user.uid);
-        debugger;
       } else {
         self.authentication = false;
       }
@@ -173,10 +171,9 @@ export default {
       });
     },
     async contarProd(id) {
-      debugger;
       let cantidad = 0;
-      const data = await fetch(`http://localhost:3003/v1/api/carts/${id}`).then(
-        (res) => res.json()
+      const data = await fetch(`${API_URL}carts/${id}`).then((res) =>
+        res.json()
       );
       for (let i = 0; i <= data.cesta.length - 1; i++) {
         cantidad += parseInt(data.cesta[i].cantidad);
@@ -203,9 +200,7 @@ export default {
       });
     },
     async fetchAllProductsByValue(val) {
-      const data = await fetch(`http://localhost:3003/v1/api/productos`).then(
-        (res) => res.json()
-      );
+      const data = await fetch(`${API_URL}productos`).then((res) => res.json());
       let index = 0;
       let encontrados = [];
       while (index < data.length) {
@@ -228,13 +223,10 @@ export default {
   },
   watch: {
     text(newval, oldval) {
-      debugger;
       this.fetchAllProductsByValue(newval);
     },
     "$store.state.currentCartLength": {
       handler() {
-        debugger;
-
         this.carritoNumero = this.$store.state.currentCartLength;
       },
     },

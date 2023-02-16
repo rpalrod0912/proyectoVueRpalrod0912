@@ -106,6 +106,8 @@ import {
 } from "@/firebaseConfig/firebaseConfig.js";
 import router from "@/router";
 import axios from "axios";
+import { toHome } from "@/helpers/basicFunctions";
+import { API_URL } from "@/helpers/basicFunctions";
 
 export default {
   name: "RegisterCom",
@@ -119,6 +121,7 @@ export default {
     registerPwd: "",
     registerConfirmPwd: "",
     registerChecked: false,
+    reload: toHome,
   }),
   props: {
     validacionCheck: { Function },
@@ -141,6 +144,7 @@ export default {
 
       const registerData = {
         name: this.registerNombre,
+        lastName: this.registerApellidos,
         mail: this.registerMail,
         password: this.registerPwd,
       };
@@ -154,14 +158,15 @@ export default {
           this.exito = true;
           this.userFound = false;
 
-          const user = userCredential.user;
           const userId = userCredential.user.uid;
           this.postForm({
             id: userId,
             name: registerData.name,
+            lastName: registerData.lastName,
             mail: registerData.mail,
             password: registerData.password,
           });
+          this.reload(this.$router.push("/"));
         })
         .catch((error) => {
           debugger;
@@ -179,8 +184,9 @@ export default {
     },
     async postForm(objetoUsuario) {
       debugger;
+      console.log(objetoUsuario);
       const data = await axios
-        .post("http://localhost:3003/v1/api/users/", objetoUsuario)
+        .post(`${API_URL}users/`, objetoUsuario)
         .then((res) => res.data)
         .catch((error) => console.log(error));
     },

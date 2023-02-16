@@ -97,7 +97,7 @@
                 </v-card-text>
                 <v-card-actions class="justify-end">
                   <v-btn variant="text" @click="isActive.value = false"
-                    >Close</v-btn
+                    >Cerrar</v-btn
                   >
                 </v-card-actions>
               </v-card>
@@ -110,7 +110,7 @@
                 </v-card-text>
                 <v-card-actions class="justify-end">
                   <v-btn variant="text" @click="isActive.value = false"
-                    >Close</v-btn
+                    >Cerrar</v-btn
                   >
                 </v-card-actions>
               </v-card>
@@ -126,6 +126,7 @@
 import NavBar from "@/components/NavBar.vue";
 import axios from "axios";
 import { recarga } from "@/helpers/basicFunctions.js";
+import { API_URL } from "@/helpers/basicFunctions";
 
 /*eslint-disable */
 export default {
@@ -183,7 +184,7 @@ export default {
       };
       console.log(datos);
       const data = await axios
-        .post(`http://localhost:3003/v1/api/carts/`, datos)
+        .post(`${API_URL}carts/`, datos)
         .then((res) => res.data)
         .catch((error) => console.log(error));
 
@@ -197,16 +198,13 @@ export default {
     },
     async contarProd(id) {
       let cantidad = 0;
-      const data = await fetch(`http://localhost:3003/v1/api/carts/${id}`).then(
-        (res) => res.json()
+      const data = await fetch(`${API_URL}carts/${id}`).then((res) =>
+        res.json()
       );
       for (let i = 0; i <= data.cesta.length - 1; i++) {
         cantidad += parseInt(data.cesta[i].cantidad);
       }
-      setTimeout(() => {
-        debugger;
-        this.$route.go;
-      }, 2000);
+
       return cantidad;
     },
     activarBoton() {

@@ -94,6 +94,7 @@
 
 <script>
 /*eslint-disable*/
+import { API_URL } from "@/helpers/basicFunctions";
 
 import LoginPage from "./LoginPage.vue";
 
@@ -153,17 +154,17 @@ export default {
   methods: {
     async cargarPagina(page) {
       this.carga = false;
-      const data = await fetch(
-        `http://localhost:3003/v1/api/productos/paginas/${page}`
-      ).then((res) => res.json());
+      const data = await fetch(`${API_URL}productos/paginas/${page}`).then(
+        (res) => res.json()
+      );
       this.imgArray = data;
       this.carga = true;
     },
 
     async getPages() {
-      const data = await fetch(
-        `http://localhost:3003/v1/api/productos/paginas`
-      ).then((res) => res.json());
+      const data = await fetch(`${API_URL}productos/paginas`).then((res) =>
+        res.json()
+      );
       const cantidadPaginas = Object.keys(data).length;
       this.numeroPaginas = cantidadPaginas;
     },
