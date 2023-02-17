@@ -146,12 +146,14 @@ export default {
         mail: this.registerMail,
         password: this.registerPwd,
       };
+      debugger;
       await createUserWithEmailAndPassword(
         auth,
         registerData.mail,
         registerData.password
       )
         .then((userCredential) => {
+          debugger;
           this.exito = true;
           this.userFound = false;
           const user = userCredential;
@@ -164,8 +166,6 @@ export default {
             password: registerData.password,
           });
           const usuario = userCredential.user;
-          this.encontrarUsuario(usuario.email);
-          this.$store.commit("setCurrentMail", usuario.email);
           debugger;
           if (localStorage.getItem(`carrito_${usuario.email}`) === null) {
             localStorage.setItem(
@@ -174,6 +174,10 @@ export default {
             );
             console.log("CREADO!!");
           }
+          this.encontrarUsuario(usuario.email);
+          this.$store.commit("setCurrentMail", usuario.email);
+          debugger;
+
           console.log("NO CREADO YA EXISTE");
           this.reload(this.$router.push("/"));
         })
@@ -186,7 +190,6 @@ export default {
             this.userFound = true;
             return;
           }
-          setTimeout(() => router.push("/"), 2000);
         });
     },
     async postForm(objetoUsuario) {
