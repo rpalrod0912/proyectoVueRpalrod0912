@@ -104,9 +104,9 @@ import {
   auth,
   createUserWithEmailAndPassword,
 } from "@/firebaseConfig/firebaseConfig.js";
+import { toHome } from "@/helpers/basicFunctions";
 import router from "@/router";
 import axios from "axios";
-import { toHome } from "@/helpers/basicFunctions";
 import { API_URL } from "@/helpers/basicFunctions";
 
 export default {
@@ -133,11 +133,13 @@ export default {
   },
   methods: {
     /*eslint-disable */
-    register() {
+    async register() {
       this.userFound = false;
       this.exito = false;
       this.$refs.form.validate();
-      this.registerFireBase();
+      await this.registerFireBase();
+
+      this.$router.push("/");
     },
     async registerFireBase() {
       const registerData = {

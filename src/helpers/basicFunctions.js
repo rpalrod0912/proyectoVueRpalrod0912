@@ -8,11 +8,8 @@ function recarga() {
 const API_URL =
   "https://restapicommerceproyectonode-production.up.railway.app/v1/api/";
 
-function toHome(action) {
-  sleep(2000);
-  setTimeout(function () {
-    action;
-  }, 1000);
+function toHome() {
+  this.$router.push("/");
 }
 
 module.exports = { recarga, toHome, API_URL };

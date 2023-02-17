@@ -136,7 +136,7 @@ export default {
     //OBLIGATORIO DE LO CONTRARIO NO PODEMOS TRABAJAR CON VARIABLESDFE VUE CON oAuthStateChanged
     let self = this;
     auth.onAuthStateChanged(async function (user) {
-      if (user != null) {
+      if (user !== null) {
         self.email = user.email;
         self.$store.commit("setCurrentMail", user.email);
         self.authentication = true;
