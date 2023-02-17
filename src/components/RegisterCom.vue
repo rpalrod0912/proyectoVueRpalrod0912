@@ -154,7 +154,7 @@ export default {
         .then((userCredential) => {
           this.exito = true;
           this.userFound = false;
-
+          const user = userCredential;
           const userId = userCredential.user.uid;
           this.postForm({
             id: userId,
@@ -163,6 +163,18 @@ export default {
             mail: registerData.mail,
             password: registerData.password,
           });
+          const usuario = userCredential.user;
+          this.encontrarUsuario(usuario.email);
+          this.$store.commit("setCurrentMail", usuario.email);
+          debugger;
+          if (localStorage.getItem(`carrito_${usuario.email}`) === null) {
+            localStorage.setItem(
+              `carrito_${usuario.email}`,
+              JSON.stringify({ userId: usuario.uid, cesta: [] })
+            );
+            console.log("CREADO!!");
+          }
+          console.log("NO CREADO YA EXISTE");
           this.reload(this.$router.push("/"));
         })
         .catch((error) => {
