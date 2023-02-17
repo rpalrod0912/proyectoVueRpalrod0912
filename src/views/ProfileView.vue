@@ -101,7 +101,6 @@ import NavBar from "@/components/NavBar.vue";
 /*eslint-disable */
 export default {
   async created() {
-    debugger;
     this.userData = await this.fetchUserData(this.$store.state.currentUser);
     console.log(this.userData);
   },
@@ -152,7 +151,6 @@ export default {
       this.$refs.form.validate();
     },
     async fetchUserData(id) {
-      debugger;
       const data = await fetch(
         `http://localhost:3003/v1/api/users/id/${id}`
       ).then((res) => res.json());

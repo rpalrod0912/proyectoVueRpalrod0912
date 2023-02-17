@@ -1,6 +1,5 @@
 /*eslint-disable */
 function recarga() {
-  debugger;
   setTimeout(function () {
     window.location.reload();
   }, 880);
@@ -10,10 +9,10 @@ const API_URL =
   "https://restapicommerceproyectonode-production.up.railway.app/v1/api/";
 
 function toHome(action) {
-  debugger;
+  sleep(2000);
   setTimeout(function () {
     action;
-  }, 880);
+  }, 1000);
 }
 
 module.exports = { recarga, toHome, API_URL };

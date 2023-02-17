@@ -389,7 +389,6 @@ export default {
   watch: {
     imgArray(oldValue, newValue) {
       if (JSON.stringify(oldValue) !== JSON.stringify(newValue)) {
-        debugger;
         if (this.saleFilter) {
           this.filterSalesArr();
         }
@@ -410,7 +409,6 @@ export default {
       return resultado;
     },
     filterSalesArr() {
-      debugger;
       this.loadOfertas = true;
       this.ofertasArray = this.imgArray.filter((objeto) =>
         objeto.hasOwnProperty("oferta")
@@ -419,7 +417,7 @@ export default {
     },
     sizeFilterState(talla) {
       this.tipoFiltro = "tallas";
-      debugger;
+
       this.tallaSeleccionada = talla;
       console.log(this.tallaSeleccionada);
       const tallasRopa = ["S", "M", "L", "XL"];

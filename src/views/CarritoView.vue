@@ -83,18 +83,17 @@
 
 <script>
 import NavBar from "@/components/NavBar.vue";
-import axios from "axios";
 import { API_URL, recarga } from "@/helpers/basicFunctions.js";
 /*eslint-disable */
 export default {
   name: "CarritoView",
   async created() {
+    this.yourCart = JSON.parse(
+      localStorage.getItem(`carrito_${this.$store.state.currentMail}`)
+    );
     this.cartId = JSON.parse(this.$route.query.id);
-    await this.cargarCarrito(this.cartId);
     debugger;
-
     await this.cargarProductos(this.yourCart.cesta);
-    console.log(this.products);
   },
   data: () => ({
     products: [],
@@ -104,6 +103,7 @@ export default {
     reload: recarga,
   }),
   methods: {
+    /*
     async contarProd(id) {
       let cantidad = 0;
       const data = await fetch(`${API_URL}carts/${id}`).then((res) =>
@@ -114,25 +114,25 @@ export default {
       }
 
       return cantidad;
-    },
-    async eliminarCarrito(userId, idProduct) {
+    },*/
+    eliminarCarrito(userId, idProduct) {
       debugger;
-
       const datos = {
         userId,
         idProduct,
       };
-      console.log(datos);
-      const data = await axios
-        .patch(`${API_URL}carts/`, datos)
-        .then((res) => res.data)
-        .catch((error) => console.log(error));
-      console.log(data);
-      debugger;
-      this.$store.commit(
-        "setCurrentCartLength",
-        await this.contarProd(datos.userId)
-      );
+      const mail = this.$store.state.currentMail;
+      const carritoEditar = JSON.parse(localStorage.getItem(`carrito_${mail}`));
+      const productoExiste = carritoEditar.cesta.findIndex((producto) => {
+        return producto.idProduct === datos.idProduct;
+      });
+      if (productoExiste !== -1) {
+        carritoEditar.cesta.splice(productoExiste, 1);
+      }
+
+      localStorage.setItem(`carrito_${mail}`, JSON.stringify(carritoEditar));
+      this.$store.commit("setCurrentCartLength");
+
       this.reload();
     },
     async cargarProductos(cesta) {
@@ -140,20 +140,15 @@ export default {
       debugger;
       console.log(cesta);
       while (cont < cesta.length) {
+        debugger;
         const data = await fetch(
-          `${API_URL}productos/${cesta[cont].idProducto}`
+          `${API_URL}productos/${cesta[cont].idProduct}`
         ).then((res) => res.json());
         this.products.push(data);
         cont += 1;
       }
-      this.loading = true;
-    },
-    async cargarCarrito(id) {
       debugger;
-      const data = await fetch(`${API_URL}carts/${id}`).then((res) =>
-        res.json()
-      );
-      this.yourCart = data;
+      this.loading = true;
     },
   },
   watch: {

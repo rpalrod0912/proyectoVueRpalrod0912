@@ -68,7 +68,6 @@ export default {
   //Ejemplo usando https://fakestoreapi.com/
   name: "InicioView",
   created() {
-    debugger;
     this.getHomeProducts();
   },
   data() {
@@ -106,7 +105,7 @@ export default {
   methods: {
     async getHomeProducts() {
       let numberId = 0;
-      debugger;
+
       const data = await fetch(`${API_URL}productos/`, {
         method: "GET",
         mode: "cors",

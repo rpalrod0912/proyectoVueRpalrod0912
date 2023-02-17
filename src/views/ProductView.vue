@@ -124,7 +124,6 @@
 
 <script>
 import NavBar from "@/components/NavBar.vue";
-import axios from "axios";
 import { recarga } from "@/helpers/basicFunctions.js";
 import { API_URL } from "@/helpers/basicFunctions";
 
@@ -171,30 +170,44 @@ export default {
     };
   },
   methods: {
-    async añadirCarrito() {
-      debugger;
+    añadirCarrito() {
       if (this.$store.state.currentUser === null) {
         return;
       }
       const id = this.$store.state.currentUser;
-      debugger;
+      const email = this.$store.state.currentMail;
       const datos = {
         userId: id,
         idProduct: this.productData.id,
       };
       console.log(datos);
+      /*
       const data = await axios
         .post(`${API_URL}carts/`, datos)
         .then((res) => res.data)
         .catch((error) => console.log(error));
 
-      debugger;
       this.$store.commit("setCurrentCartLength", await this.contarProd(id));
-      if (data !== null) {
-        this.añadido = true;
-        return true;
+      */
+      debugger;
+      const carritoEditar = JSON.parse(
+        localStorage.getItem(`carrito_${email}`)
+      );
+      const productoExiste = carritoEditar.cesta.findIndex((producto) => {
+        return producto.idProduct === datos.idProduct;
+      });
+      if (productoExiste !== -1) {
+        carritoEditar.cesta[productoExiste].cantidad += 1;
+      } else {
+        carritoEditar.cesta.push({
+          idProduct: datos.idProduct,
+          cantidad: 1,
+        });
       }
-      return false;
+      localStorage.setItem(`carrito_${email}`, JSON.stringify(carritoEditar));
+
+      this.añadido = true;
+      return true;
     },
     async contarProd(id) {
       let cantidad = 0;
@@ -235,8 +248,6 @@ export default {
   components: { NavBar },
   watch: {
     añadido(newval, oldval) {
-      debugger;
-
       if (newval === true) {
         this.reload();
       }

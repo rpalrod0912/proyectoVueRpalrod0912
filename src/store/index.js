@@ -2,10 +2,18 @@ import { createStore } from "vuex";
 /*eslint-disable*/
 import createPersistedState from "vuex-persistedstate";
 export default createStore({
-  state: { currentAuth: false, currentUser: null, currentCartLength: 0 },
+  state: {
+    currentAuth: false,
+    currentMail: null,
+    currentUser: null,
+    currentCartLength: 0,
+  },
   //Necesario plugin persistedState para crear estados persistenes cuando se refresca la pagina
   plugins: [createPersistedState()],
   mutations: {
+    setCurrentMail(state, mail) {
+      state.currentMail = mail;
+    },
     setCurrentAuth(state, auth) {
       state.currentAuth = auth;
     },

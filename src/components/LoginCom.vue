@@ -75,7 +75,6 @@ export default {
   }),
   methods: {
     logIn() {
-      debugger;
       this.$refs.form.validate();
       this.logInFirebase();
       //this.encontrarUsuario(this.emailLogIn, this.pwdLogIn);
@@ -93,9 +92,18 @@ export default {
           this.passwordNotFound = false;
           const user = userCredential.user;
           this.encontrarUsuario(user.email);
+          this.$store.commit("setCurrentMail", user.email);
+          debugger;
+          if (localStorage.getItem(`carrito_${user.email}`) === null) {
+            localStorage.setItem(
+              `carrito_${user.email}`,
+              JSON.stringify({ userId: user.uid, cesta: [] })
+            );
+            console.log("CREADO!!");
+          }
+          console.log("NO CREADO YA EXISTE");
         })
         .catch((error) => {
-          debugger;
           const errorCode = error.code;
           if (errorCode === "auth/user-not-found") {
             this.userNotFound = true;

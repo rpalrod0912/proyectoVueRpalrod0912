@@ -140,8 +140,6 @@ export default {
       this.registerFireBase();
     },
     async registerFireBase() {
-      debugger;
-
       const registerData = {
         name: this.registerNombre,
         lastName: this.registerApellidos,
@@ -154,7 +152,6 @@ export default {
         registerData.password
       )
         .then((userCredential) => {
-          debugger;
           this.exito = true;
           this.userFound = false;
 
@@ -169,8 +166,6 @@ export default {
           this.reload(this.$router.push("/"));
         })
         .catch((error) => {
-          debugger;
-
           const errorCode = error.code;
           const errorMessage = error.message;
 
@@ -183,7 +178,6 @@ export default {
         });
     },
     async postForm(objetoUsuario) {
-      debugger;
       console.log(objetoUsuario);
       const data = await axios
         .post(`${API_URL}users/`, objetoUsuario)

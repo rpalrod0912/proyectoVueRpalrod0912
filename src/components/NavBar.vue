@@ -132,20 +132,29 @@ import { API_URL } from "@/helpers/basicFunctions";
 export default {
   name: "NavBar",
   created() {
+    debugger;
     //OBLIGATORIO DE LO CONTRARIO NO PODEMOS TRABAJAR CON VARIABLESDFE VUE CON oAuthStateChanged
     let self = this;
     auth.onAuthStateChanged(async function (user) {
       if (user != null) {
         self.email = user.email;
+        self.$store.commit("setCurrentMail", user.email);
         self.authentication = true;
         self.id = user.uid;
-        self.carritoNumero = self.$store.state.currentCartLength;
+        const carrito = JSON.parse(
+          localStorage.getItem(`carrito_${user.email}`)
+        );
+        debugger;
+        self.carritoNumero = carrito.cesta.length;
+        self.$store.commit("setCurrentCartLength", self.carritoNumero);
         //self.carritoNumero = await self.contarProd(user.uid);
         self.$store.commit("setCurrentAuth", true);
+        /*
         self.$store.commit(
           "setCurrentCartLength",
           await self.contarProd(user.uid)
         );
+        */
         self.$store.commit("setCurrentUser", user.uid);
       } else {
         self.authentication = false;
@@ -159,7 +168,7 @@ export default {
       searchsArray: [],
       authentication: null,
       email: "",
-      carritoNumero: this.$store.state.currentCartLength,
+      carritoNumero: this.$store.currentCartLength,
       id: null,
     };
   },
@@ -170,6 +179,7 @@ export default {
         query: { id: JSON.stringify(this.id) },
       });
     },
+    /*
     async contarProd(id) {
       let cantidad = 0;
       const data = await fetch(`${API_URL}carts/${id}`).then((res) =>
@@ -180,6 +190,7 @@ export default {
       }
       return cantidad;
     },
+    */
     logOut() {
       signOut(auth)
         .then(() => {
@@ -187,6 +198,8 @@ export default {
           this.$store.commit("setCurrentAuth", this.authentication);
           this.$store.commit("setCurrentUser", null);
           this.$store.commit("setCurrentCartLength", null);
+          this.$store.commit("setCurrentMail", null);
+
           this.$router.go("/");
         })
         .catch((error) => {
@@ -224,13 +237,13 @@ export default {
   watch: {
     text(newval, oldval) {
       this.fetchAllProductsByValue(newval);
-    },
+    } /*
     "$store.state.currentCartLength": {
       handler() {
         this.carritoNumero = this.$store.state.currentCartLength;
       },
     },
-
+*/,
     inmediate: true,
   },
 };

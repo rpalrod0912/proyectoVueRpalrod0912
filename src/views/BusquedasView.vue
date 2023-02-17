@@ -102,7 +102,6 @@ export default {
   },
   methods: {
     aplicarDescuento(precio, porcentaje) {
-      debugger;
       const resultado = precio - (precio * porcentaje) / 100;
       return resultado;
     },
