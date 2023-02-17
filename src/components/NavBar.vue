@@ -86,16 +86,6 @@
 
       <v-list>
         <v-list-item
-          ><router-link class="linkRouter" to="/"
-            ><v-list-item-title>Home</v-list-item-title></router-link
-          ></v-list-item
-        >
-        <v-list-item
-          ><router-link class="linkRouter" to="/about"
-            ><v-list-item-title>About</v-list-item-title></router-link
-          ></v-list-item
-        >
-        <v-list-item
           ><router-link
             v-if="!this.authentication"
             class="linkRouter"
@@ -105,16 +95,19 @@
             >DESCONECTAR</v-btn
           >
         </v-list-item>
+
+        <v-list-item
+          ><router-link class="linkRouter" to="/about"
+            ><v-list-item-title>About</v-list-item-title></router-link
+          ></v-list-item
+        >
+
         <v-list-item
           ><router-link class="linkRouter" to="/Productos"
             ><v-list-item-title>Productos</v-list-item-title></router-link
           ></v-list-item
         >
-        <v-list-item
-          ><router-link class="linkRouter" to="/Inicio"
-            ><v-list-item-title>Inicio</v-list-item-title></router-link
-          ></v-list-item
-        >
+
         <v-list-item
           ><router-link class="linkRouter" to="/Perfil"
             ><v-list-item-title>Perfil</v-list-item-title></router-link

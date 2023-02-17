@@ -138,11 +138,12 @@ export default {
       this.exito = false;
       this.$refs.form.validate();
       await this.registerFireBase();
-
-      this.$router.push({
-        name: "InicioView",
-        query: { recienRegistrado: "SI" },
-      });
+      if (this.exito === true) {
+        this.$router.push({
+          name: "InicioView",
+          query: { recienRegistrado: "SI" },
+        });
+      }
     },
     async registerFireBase() {
       const registerData = {
@@ -184,7 +185,6 @@ export default {
           debugger;
 
           console.log("NO CREADO YA EXISTE");
-          this.reload(this.$router.push("/"));
         })
         .catch((error) => {
           const errorCode = error.code;
