@@ -1,5 +1,13 @@
 <template>
   <NavBar></NavBar>
+  <v-alert
+    style="display: flex; justify-content: center"
+    dense
+    text
+    type="success"
+    v-if="this.recienRegistrado === 'SI'"
+    >BIENVENIDO NUEVO USUARIO</v-alert
+  >
   <v-card elevation="20" class="mx-auto" rounded width="80%">
     <v-carousel
       height="400"
@@ -68,10 +76,12 @@ export default {
   //Ejemplo usando https://fakestoreapi.com/
   name: "InicioView",
   created() {
+    this.recienRegistrado = this.$route.query.recienRegistrado;
     this.getHomeProducts();
   },
   data() {
     return {
+      recienRegistrado: "NO",
       colores: ["blue", "black", "red", "deep-purple accent-4", "orange"],
       carrouselElem: [],
       carga: false,

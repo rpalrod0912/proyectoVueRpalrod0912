@@ -139,7 +139,10 @@ export default {
       this.$refs.form.validate();
       await this.registerFireBase();
 
-      this.$router.push("/");
+      this.$router.push({
+        name: "InicioView",
+        query: { recienRegistrado: "SI" },
+      });
     },
     async registerFireBase() {
       const registerData = {

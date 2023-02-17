@@ -200,7 +200,7 @@ export default {
           this.$store.commit("setCurrentCartLength", null);
           this.$store.commit("setCurrentMail", null);
 
-          this.$router.go("/");
+          this.$router.push("/");
         })
         .catch((error) => {
           console.log("ALGO OCURRIO");
