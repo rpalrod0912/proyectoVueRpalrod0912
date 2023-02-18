@@ -29,6 +29,7 @@
         variant="solo"
         label="Buscar Producto"
         clearable
+        @keydown.enter.prevent="buscarElementos"
       ></v-text-field>
     </div>
     <v-btn @click="buscarElementos" icon class="mx-1">
@@ -170,18 +171,7 @@ export default {
         query: { id: JSON.stringify(this.id) },
       });
     },
-    /*
-    async contarProd(id) {
-      let cantidad = 0;
-      const data = await fetch(`${API_URL}carts/${id}`).then((res) =>
-        res.json()
-      );
-      for (let i = 0; i <= data.cesta.length - 1; i++) {
-        cantidad += parseInt(data.cesta[i].cantidad);
-      }
-      return cantidad;
-    },
-    */
+
     logOut() {
       signOut(auth)
         .then(() => {
