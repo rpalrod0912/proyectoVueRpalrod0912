@@ -125,7 +125,6 @@ import { API_URL } from "@/helpers/basicFunctions";
 export default {
   name: "NavBar",
   created() {
-    debugger;
     //OBLIGATORIO DE LO CONTRARIO NO PODEMOS TRABAJAR CON VARIABLESDFE VUE CON oAuthStateChanged
     let self = this;
     auth.onAuthStateChanged(async function (user) {
@@ -137,7 +136,6 @@ export default {
         const carrito = JSON.parse(
           localStorage.getItem(`carrito_${user.email}`)
         );
-        debugger;
         self.carritoNumero = carrito.cesta.length;
         self.$store.commit("setCurrentCartLength", self.carritoNumero);
         //self.carritoNumero = await self.contarProd(user.uid);
@@ -196,7 +194,7 @@ export default {
           this.$router.push("/");
         })
         .catch((error) => {
-          console.log("ALGO OCURRIO");
+          ("ALGO OCURRIO");
         });
     },
     buscarElementos() {

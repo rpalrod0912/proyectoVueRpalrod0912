@@ -38,7 +38,7 @@ export default {
   watch: {
     isHovering(oldval, newVal) {
       if (oldval) {
-        console.log(this.productData);
+        this.productData;
       }
     },
   },

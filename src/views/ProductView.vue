@@ -132,7 +132,7 @@ export default {
   name: "ProductView",
   created() {
     this.productData = JSON.parse(this.$route.query.prodData);
-    console.log(this.productData);
+    this.productData;
   },
   data() {
     return {
@@ -180,16 +180,8 @@ export default {
         userId: id,
         idProduct: this.productData.id,
       };
-      console.log(datos);
-      /*
-      const data = await axios
-        .post(`${API_URL}carts/`, datos)
-        .then((res) => res.data)
-        .catch((error) => console.log(error));
+      datos;
 
-      this.$store.commit("setCurrentCartLength", await this.contarProd(id));
-      */
-      debugger;
       const carritoEditar = JSON.parse(
         localStorage.getItem(`carrito_${email}`)
       );
@@ -228,19 +220,19 @@ export default {
     selectTalla(talla) {
       if (this.tallaElegida !== talla) {
         this.tallaElegida = talla;
-        console.log(this.tallaElegida);
+        this.tallaElegida;
         this.activarBoton();
       }
     },
     selectColor(color) {
       if (this.colorElegido !== color) {
         this.colorElegido = color;
-        console.log(this.colorElegido);
+        this.colorElegido;
         this.activarBoton();
       }
     },
     encontrarColor(valor) {
-      console.log(this.productData);
+      this.productData;
       const encontrarEstilo = this.colores.find((val) => val.color === valor);
       return encontrarEstilo.estilo;
     },

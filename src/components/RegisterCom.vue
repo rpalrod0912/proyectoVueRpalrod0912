@@ -152,14 +152,12 @@ export default {
         mail: this.registerMail,
         password: this.registerPwd,
       };
-      debugger;
       await createUserWithEmailAndPassword(
         auth,
         registerData.mail,
         registerData.password
       )
         .then((userCredential) => {
-          debugger;
           this.exito = true;
           this.userFound = false;
           const user = userCredential;
@@ -172,19 +170,17 @@ export default {
             password: registerData.password,
           });
           const usuario = userCredential.user;
-          debugger;
           if (localStorage.getItem(`carrito_${usuario.email}`) === null) {
             localStorage.setItem(
               `carrito_${usuario.email}`,
               JSON.stringify({ userId: usuario.uid, cesta: [] })
             );
-            console.log("CREADO!!");
+            ("CREADO!!");
           }
           this.encontrarUsuario(usuario.email);
           this.$store.commit("setCurrentMail", usuario.email);
-          debugger;
 
-          console.log("NO CREADO YA EXISTE");
+          ("NO CREADO YA EXISTE");
         })
         .catch((error) => {
           const errorCode = error.code;
@@ -198,11 +194,11 @@ export default {
         });
     },
     async postForm(objetoUsuario) {
-      console.log(objetoUsuario);
+      objetoUsuario;
       const data = await axios
         .post(`${API_URL}users/`, objetoUsuario)
         .then((res) => res.data)
-        .catch((error) => console.log(error));
+        .catch((error) => error);
     },
   },
 };

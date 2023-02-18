@@ -124,10 +124,10 @@ export default {
         this.carrouselElem.push(data[numberId]);
         numberId += 1;
       }
-      console.log(data);
-      console.log(this.carrouselElem);
-      console.log(this.carga);
-      console.log(this.carrouselElem[0].imagen);
+      data;
+      this.carrouselElem;
+      this.carga;
+      this.carrouselElem[0].imagen;
       this.carga = true;
     },
   },

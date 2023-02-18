@@ -98,7 +98,7 @@ export default {
   },
   created() {
     this.prodFiltrados = JSON.parse(this.$route.query.prodFiltrados);
-    console.log(this.prodFiltrados);
+    this.prodFiltrados;
   },
   methods: {
     aplicarDescuento(precio, porcentaje) {

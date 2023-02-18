@@ -92,7 +92,6 @@ export default {
       localStorage.getItem(`carrito_${this.$store.state.currentMail}`)
     );
     this.cartId = JSON.parse(this.$route.query.id);
-    debugger;
     await this.cargarProductos(this.yourCart.cesta);
   },
   data: () => ({
@@ -116,7 +115,6 @@ export default {
       return cantidad;
     },*/
     eliminarCarrito(userId, idProduct) {
-      debugger;
       const datos = {
         userId,
         idProduct,
@@ -137,17 +135,14 @@ export default {
     },
     async cargarProductos(cesta) {
       let cont = 0;
-      debugger;
-      console.log(cesta);
+      cesta;
       while (cont < cesta.length) {
-        debugger;
         const data = await fetch(
           `${API_URL}productos/${cesta[cont].idProduct}`
         ).then((res) => res.json());
         this.products.push(data);
         cont += 1;
       }
-      debugger;
       this.loading = true;
     },
   },

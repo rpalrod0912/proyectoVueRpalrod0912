@@ -93,15 +93,14 @@ export default {
           const user = userCredential.user;
           this.encontrarUsuario(user.email);
           this.$store.commit("setCurrentMail", user.email);
-          debugger;
           if (localStorage.getItem(`carrito_${user.email}`) === null) {
             localStorage.setItem(
               `carrito_${user.email}`,
               JSON.stringify({ userId: user.uid, cesta: [] })
             );
-            console.log("CREADO!!");
+            ("CREADO!!");
           }
-          console.log("NO CREADO YA EXISTE");
+          ("NO CREADO YA EXISTE");
         })
         .catch((error) => {
           const errorCode = error.code;
@@ -112,14 +111,14 @@ export default {
             this.passwordNotFound = true;
           }
         });
-      console.log(this.userNotFound);
+      this.userNotFound;
     },
     async encontrarUsuario(email) {
       const mail = email;
       const foundUser = await fetch(`${API_URL}users/login/${mail}`).then(
         (res) => res.json()
       );
-      console.log(foundUser);
+      foundUser;
 
       if (foundUser !== "NOTFOUND") {
         this.$router.push("/");

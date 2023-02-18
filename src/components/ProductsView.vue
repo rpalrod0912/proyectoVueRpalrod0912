@@ -419,7 +419,7 @@ export default {
       this.tipoFiltro = "tallas";
 
       this.tallaSeleccionada = talla;
-      console.log(this.tallaSeleccionada);
+      this.tallaSeleccionada;
       const tallasRopa = ["S", "M", "L", "XL"];
       if (talla === "Ninguno") {
         this.filterValue = false;

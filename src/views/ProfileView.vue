@@ -253,16 +253,14 @@ import {
 export default {
   async created() {
     this.cargando = false;
-    debugger;
     this.userComprobar = await this.fetchUserData(
       this.$store.state.currentUser
     );
     this.userData = await this.fetchUserData(this.$store.state.currentUser);
-    debugger;
     this.iniciales =
       this.userComprobar.nombre["0"].toUpperCase() +
       this.userComprobar.lastName["0"].toUpperCase();
-    console.log(this.userData);
+    this.userData;
     this.cargando = true;
   },
   data() {
@@ -321,20 +319,19 @@ export default {
       if (this.step === 1) {
         updateEmail(auth.currentUser, this.userData.mail)
           .then(() => {
-            console.log("ACTUALIZADO MAIL");
+            ("ACTUALIZADO MAIL");
           })
           .catch((error) => {
-            debugger;
-            console.log(error);
+            error;
           });
       }
       if (this.step === 2) {
         updatePassword(auth.currentUser, this.userData.pwd)
           .then(() => {
-            console.log("ACTUALIZADO PWD!!");
+            ("ACTUALIZADO PWD!!");
           })
           .catch((error) => {
-            console.log(error);
+            error;
           });
       }
       this.$router.push({
@@ -343,14 +340,13 @@ export default {
       });
     },
     async patchForm(objetoUsuario) {
-      console.log(objetoUsuario);
+      objetoUsuario;
       const data = await axios
         .patch(`${API_URL}users/${objetoUsuario.idUser}`, objetoUsuario)
         .then((res) => res.data)
-        .catch((error) => console.log(error));
+        .catch((error) => error);
     },
     register1() {
-      debugger;
       if (
         this.validarNombre(this.userData.nombre) &&
         this.validarNombre(this.userData.lastName) &&
@@ -358,7 +354,7 @@ export default {
         this.validarMail(this.userData.mail) &&
         this.validarCheck(this.registerChecked)
       ) {
-        console.log("Hola");
+        ("Hola");
         this.updateProfile();
         this.$refs.form.validate();
       } else {
@@ -399,7 +395,7 @@ export default {
         this.validarMail(this.userData.mail) &&
         this.validarCheck(this.registerChecked)
       ) {
-        console.log("Hola");
+        ("Hola");
         this.updateProfile();
         this.$refs.form.validate();
       } else {
@@ -436,7 +432,6 @@ export default {
       }
     },
     validarContraOriginal(datos) {
-      debugger;
       if (datos === this.userComprobar.pwd) {
         return true;
       }
@@ -487,7 +482,7 @@ export default {
         "Las contraseñas deben coincidir";
     },
     validateName() {
-      console.log(this.userData.nombre);
+      this.userData.nombre;
       this.userData.nombre.length <= 15 ? true : false;
     },
   },
