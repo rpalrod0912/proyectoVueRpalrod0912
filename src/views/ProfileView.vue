@@ -486,16 +486,7 @@ export default {
       this.userData.nombre.length <= 15 ? true : false;
     },
   },
-  watch: {
-    /*
-    userData: {
-      handler(newVal, oldVal) {
-        if()
-      },
-      deep: true,
-    },
-    */
-  },
+
   components: { NavBar },
 };
 </script>
