@@ -5,8 +5,11 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signOut,
+  reauthenticateWithCredential,
   setPersistence,
   browserSessionPersistence,
+  updateEmail,
+  updatePassword,
 } from "firebase/auth";
 
 const firebaseConfig = {
@@ -27,4 +30,7 @@ export {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signOut,
+  updateEmail,
+  updatePassword,
+  reauthenticateWithCredential,
 };

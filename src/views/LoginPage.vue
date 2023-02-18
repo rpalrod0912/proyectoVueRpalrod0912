@@ -1,6 +1,15 @@
 <template>
   <NavBar></NavBar>
   <v-container>
+    <v-alert
+      style="display: flex; justify-content: center"
+      dense
+      closable
+      text
+      type="success"
+      v-if="this.cambio === 'SI'"
+      >DATOS CAMBIADOS CON ÉXITO, INICIA SESIÓN DE NUEVO</v-alert
+    >
     <v-row align="center" justify="center">
       <v-col cols="12" sm="10">
         <v-card class="elevation-6 mt-10">
@@ -67,7 +76,11 @@ export default {
   /*eslint-disable */
   /*Documentacion de Vuetify Validacion */
   /*https://vuetifyjs.com/en/components/forms/#vuelidate */
+  created() {
+    this.cambio = this.$route.query.cambio;
+  },
   data: () => ({
+    cambio: "NO",
     valid: true,
     //emailLogIn: "",
     //pwdLogIn: "",
