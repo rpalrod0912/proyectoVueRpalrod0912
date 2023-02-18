@@ -313,6 +313,9 @@ export default {
     };
   },
   methods: {
+    //ACLARION: EL cambio de datos normales esta separado del cambio de contaseña porque firebase desactiva el token de credenciales
+    //cuando se realiza un cambio importante, es decir, solo se permite un cambio de email o un cambio de contraseña en un mismo incio de sesion
+    //pero no permite ambos en un mismo inicio de sesion
     updateProfile() {
       this.patchForm(this.userData);
       if (this.step === 1) {
