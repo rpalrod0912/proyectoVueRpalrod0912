@@ -1,6 +1,11 @@
 <template>
   <v-col cols="12" md="6">
-    <v-form ref="form" v-model="this.valid" miValidacion>
+    <v-form
+      ref="form"
+      @keydown.enter.prevent="this.valid ? this.logIn() : ''"
+      v-model="this.valid"
+      miValidacion
+    >
       <v-card-text class="mt-12">
         <h4 class="text-center">Inicia Sesión en tu cuenta</h4>
         <v-row align="center" justify="center">

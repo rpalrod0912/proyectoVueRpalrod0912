@@ -71,6 +71,7 @@
                 class="profileForm"
                 ref="form"
                 miValidacion
+                @keydown.enter.prevent="this.editar ? this.register1() : ''"
                 :disabled="!editar"
               >
                 <v-row>
@@ -166,6 +167,7 @@
                 class="profileForm"
                 ref="form"
                 miValidacion
+                @keydown.enter.prevent="this.editar ? this.register2() : ''"
                 :disabled="!editar"
               >
                 <v-row>

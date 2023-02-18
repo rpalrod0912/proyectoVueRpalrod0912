@@ -4,7 +4,12 @@
 
     <v-row align="center" justify="center">
       <v-col cols="12" sm="8">
-        <v-form ref="form" v-model="valid" miValidacion>
+        <v-form
+          ref="form"
+          v-model="valid"
+          @keydown.enter.prevent="this.valid ? this.register() : ''"
+          miValidacion
+        >
           <v-row>
             <v-col cols="12" sm="6">
               <v-text-field
