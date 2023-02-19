@@ -526,6 +526,7 @@ export default {
 .contenedor {
   width: 100%;
   display: flex;
+  height: 100%;
   justify-content: center;
   background-color: #49d9d9;
 }

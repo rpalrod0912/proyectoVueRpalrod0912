@@ -99,7 +99,7 @@
 
         <v-list-item
           ><router-link class="linkRouter" to="/about"
-            ><v-list-item-title>About</v-list-item-title></router-link
+            ><v-list-item-title>Más Información</v-list-item-title></router-link
           ></v-list-item
         >
 
