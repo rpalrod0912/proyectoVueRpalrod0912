@@ -235,7 +235,7 @@
         </v-window-item>
       </v-window>
     </v-card>
-    <h1 v-else>CARGANGOD...</h1>
+    <h1 v-else>CARGANDO...</h1>
   </div>
 </template>
 
