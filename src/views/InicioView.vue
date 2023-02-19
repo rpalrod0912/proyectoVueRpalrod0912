@@ -30,6 +30,14 @@
       <h2>Cargando..</h2>
     </div>
   </v-card>
+  <router-link class="linkRouter" to="/Productos">
+    <v-btn
+      color="primary"
+      height="70"
+      style="display: flex; margin: 0 auto; margin-top: 1rem"
+      >VER TODOS LOS PRODUCTOS</v-btn
+    >
+  </router-link>
   <v-container fluid id="features" class="mt-2">
     <v-row align="center" justify="center">
       <v-col cols="10">
@@ -135,6 +143,11 @@ export default {
 };
 </script>
 <style>
+.linkRouter {
+  text-decoration: none;
+  text-decoration: inherit;
+  color: inherit;
+}
 .cartaCarrusel {
   display: flex;
   flex-direction: column;

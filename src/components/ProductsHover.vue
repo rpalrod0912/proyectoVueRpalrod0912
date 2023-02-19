@@ -8,12 +8,6 @@
       <v-btn @click="verProducto" rounded color="black" class="ml-2 botonHover">
         <v-icon>mdi-cart-outline</v-icon>
       </v-btn>
-      <v-btn rounded color="black" class="ml-2 botonHover">
-        <v-icon>mdi-content-copy</v-icon>
-      </v-btn>
-      <v-btn rounded color="black" class="ml-2 botonHover">
-        <v-icon>mdi-heart-outline</v-icon>
-      </v-btn>
     </div>
   </v-expand-transition>
 </template>

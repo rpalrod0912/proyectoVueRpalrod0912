@@ -12,9 +12,7 @@
     </v-col>
     <v-col cols="12" sm="3" class="mt-n6 px-0">
       <v-toolbar flat outlined>
-        <v-toolbar-title>
-          DEPORTE POR:<span>Precio €-€€</span>
-        </v-toolbar-title>
+        <v-toolbar-title> CATEGORÍA:<span>Precio €-€€</span> </v-toolbar-title>
         <v-spacer></v-spacer>
         <v-btn icon class="mr-4">
           <v-icon color="black">mdi-menu-down</v-icon>

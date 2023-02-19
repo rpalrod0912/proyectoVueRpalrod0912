@@ -26,18 +26,11 @@
                 </v-btn>
                 <h6 class="white--text mt-8">AIRFORCE 1</h6>
                 <h3 class="white--text mt-5">Siente el poder en tus pies</h3>
-                <v-btn
-                  rounded
-                  color="#4C9CDB"
-                  dark
-                  class="withoutuppercase px-8 mt-10"
-                  >Más Info..</v-btn
-                >
               </v-col>
               <v-col cols="12" sm="8">
                 <!--TODO Cambiar con api-->
                 <v-img
-                  src="https://i.ibb.co/Wy49mwF/eac24c2f11924b109410ae890008cb01-9366.webp"
+                  src="https://i.ibb.co/D55f9QN/af1.png"
                   max-height="400"
                   max-width="400"
                 ></v-img>
@@ -54,13 +47,6 @@
                 </v-btn>
                 <h6 class="white--text mt-8">Sudadera</h6>
                 <h3 class="white--text mt-5">Nueva Colección 2021</h3>
-                <v-btn
-                  rounded
-                  color="#8375E7"
-                  dark
-                  class="withoutuppercase px-8 mt-3"
-                  >Más Info...
-                </v-btn>
               </v-col>
               <v-col cols="12" sm="6">
                 <v-img
